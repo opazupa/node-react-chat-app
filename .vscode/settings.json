@@ -1,0 +1,16 @@
+{
+  // Editor configurations
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+
+  // Formatting and linting
+  "html.format.indentInnerHtml": true,
+  "prettier.requireConfig": true,
+  "tslint.enable": true,
+  "tslint.autoFixOnSave": true,
+  "typescriptHero.imports.organizeOnSave": true,
+
+  "files.associations": {
+    ".prettierrc": "json"
+  }
+}

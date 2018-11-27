@@ -1,0 +1,25 @@
+{
+  "name": "react-node-chat-app",
+  "version": "0.1.0",
+  "description": "Node + React websocket based live chat app",
+  "scripts": {
+    "client": "TODO Olli",
+    "server": "node ./server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opazupa/node-react-chat-app.git"
+  },
+  "author": "Olli Saarinen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opazupa/node-react-chat-app/issues"
+  },
+  "homepage": "https://github.com/opazupa/node-react-chat-app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.13",
+    "socket.io": "^2.1.1"
+  }
+}
