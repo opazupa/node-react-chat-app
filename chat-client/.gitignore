@@ -9,6 +9,9 @@
 # production
 /build
 
+# folder for preprocessed scss-files
+/src/css
+
 # misc
 .DS_Store
 .env.local
