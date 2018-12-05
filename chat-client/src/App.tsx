@@ -7,7 +7,7 @@ import socket, { ISocket } from './socket/socket';
 
 export interface IUser {
   id: string;
-  nickname: string;
+  name: string;
 }
 
 export interface IAppState {
@@ -15,6 +15,9 @@ export interface IAppState {
   client: ISocket;
   isRegisterInProcess: boolean;
   user?: IUser;
+  name: string;
+  room: string;
+  chathistory: any[];
 }
 
 export interface IChatroom {
@@ -28,11 +31,19 @@ class App extends React.Component {
     super(props, context);
 
     this.state = {
+      chathistory: [],
       chatrooms: [],
       client: socket(),
       isRegisterInProcess: false,
+      name: 'OlliMoll1',
+      room: 'Room1',
       user: undefined
     };
+
+    this.state.client.registerHandler((chat: any) => {
+      console.log(chat);
+      this.setState({ chathistory: this.state.chathistory.concat(chat) });
+    });
   }
 
   public render() {
@@ -46,30 +57,38 @@ class App extends React.Component {
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
         <button onClick={() => this.register()}>Register</button>
-        <button onClick={() => this.join('Room1')}>Join</button>
+        <button onClick={() => this.join(this.state.room)}>Join</button>
         <button
           onClick={() =>
-            this.state.client.message('Room1', 'Hei olen olli', () => {
+            this.state.client.message(this.state.room, 'Hei olen olli', (err: any, chats: any[]) => {
               console.log('viesti meni');
             })
           }
         >
           Send message
         </button>
+        {this.state.chathistory.map((chat, i) => [
+          <div key={i}>
+            {chat.event
+              ? `${chat.event} ${Date.parse(chat.timestamp)}`
+              : `${chat.userName} ${chat.message} ${new Date(chat.timestamp).toString()}`}
+          </div>
+        ])}
       </div>
     );
   }
 
   private join(room: string) {
-    this.state.client.join(room, () => {
+    this.state.client.join(room, (err: any, chats: any[]) => {
       this.setState({ chatrooms: [...this.state.chatrooms, room] });
+      this.setState({ chathistory: chats });
     });
   }
 
   private register() {
     const onRegisterResponse = (user?: IUser) => this.setState({ isRegisterInProcess: false, user });
     this.setState({ isRegisterInProcess: true });
-    this.state.client.register(name, (err: any, user: IUser) => {
+    this.state.client.register(this.state.name, (err: any, user: IUser) => {
       if (err) {
         return onRegisterResponse(undefined);
       }

@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 
 const server = http.Server(app);
-const io = socketIO(http);
+const io = socketIO(server);
 
 const clientManager = ClientManager();
 const chatroomManager = ChatroomManager();
@@ -23,11 +23,11 @@ io.on('connection', function(client) {
     handleLeave,
     handleMessage,
     handleGetChatrooms,
-    handleGetAvailableUsers,
+    handleCreateChatroom,
     handleDisconnect
   } = makeHandlers(client, clientManager, chatroomManager);
 
-  console.log('client connected...', client.id);
+  console.log('Client connected...', client.id);
   clientManager.addClient(client);
 
   client.on('register', handleRegister);
@@ -40,19 +40,18 @@ io.on('connection', function(client) {
 
   client.on('chatrooms', handleGetChatrooms);
 
-  client.on('availableUsers', handleGetAvailableUsers);
+  client.on('create chatroom', handleCreateChatroom);
 
   client.on('disconnect', function() {
-    console.log('client disconnect...', client.id);
+    console.log('Client disconnect...', client.id);
     handleDisconnect();
   });
 
   client.on('error', function(err) {
-    console.log('received error from client:', client.id);
+    console.log('Received error from client:', client.id);
     console.log(err);
   });
 });
 
 const port = process.env.PORT || 5000;
-// console.log that your server is up and running
 server.listen(port, () => console.log(`Listening on port ${port}`));
