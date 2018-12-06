@@ -54,7 +54,7 @@ const makeHandleEvent = (client, clientManager, chatroomManager) => {
   }
 
   async function handleEvent(chatroomName, createEntry) {
-    return await ensureValidChatroomAndUser(chatroomName).then(function({ chatroom, userName, clientId }) {
+    return await ensureValidChatroomAndUser(chatroomName).then(({ chatroom, userName, clientId }) => {
       // append event to chat history
       const entry = { clientId, userName, timestamp: new Date().toUTCString(), ...createEntry() };
       chatroom.addEntry(entry);
@@ -104,7 +104,7 @@ export default (client, clientManager, chatroomManager) => {
     const createEntry = () => ({ event: `joined ${chatroomName}` });
 
     await handleEvent(chatroomName, createEntry)
-      .then(function(chatroom) {
+      .then(chatroom => {
         // add member to chatroom
         chatroom.addUser(client);
 
@@ -124,7 +124,7 @@ export default (client, clientManager, chatroomManager) => {
     const createEntry = () => ({ event: `left ${chatroomName}` });
 
     await handleEvent(chatroomName, createEntry)
-      .then(function(chatroom) {
+      .then(chatroom => {
         // remove member from chatroom
         chatroom.removeUser(client.id);
 

@@ -1,5 +1,11 @@
 import * as socketIO from 'socket.io-client';
 
+/**
+ * ISocket.
+ *
+ * @export
+ * @interface ISocket
+ */
 export interface ISocket {
   registerHandler: (onMessageReceived: any) => void;
   unregisterHandler: () => void;
@@ -10,55 +16,95 @@ export interface ISocket {
   getChatrooms: (cb: any) => void;
 }
 
-export default function(): ISocket {
-  const socket: SocketIOClient.Socket = socketIO.connect(process.env.SERVER_URL || 'http://localhost:5000');
+/**
+ * Socket API for socket IO.
+ *
+ * @export
+ * @class Socket
+ * @implements {ISocket}
+ */
+export class Socket implements ISocket {
+  private socket: SocketIOClient.Socket;
 
-  function registerHandler(onMessageReceived: any) {
-    socket.on('message', onMessageReceived);
+  constructor() {
+    this.socket = socketIO.connect(process.env.SERVER_URL || 'http://localhost:5000');
+
+    this.socket.on('error', (err: any) => {
+      console.log('received socket error:' + err);
+    });
   }
 
-  function unregisterHandler() {
-    socket.off('message');
+  /**
+   * Subscribes client for new messages.
+   *
+   * @param {*} onMessageReceived
+   * @memberof Socket
+   */
+  public registerHandler(onMessageReceived: any) {
+    this.socket.on('message', onMessageReceived);
   }
 
-  socket.on('error', (err: any) => {
-    // tslint:disable-next-line:no-console
-    console.log('received socket error:');
-    console.log(err);
-  });
-
-  function register(name: string, cb: any) {
-    socket.emit('register', name, cb);
+  /**
+   * Unsubscribes client from messages.
+   *
+   * @memberof Socket
+   */
+  public unregisterHandler() {
+    this.socket.off('message');
   }
 
-  function join(chatroomName: string, cb: any) {
-    socket.emit('join', chatroomName, cb);
+  /**
+   * Registers username for client.
+   *
+   * @param {string} name
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public register(name: string, cb: any) {
+    this.socket.emit('register', name, cb);
   }
 
-  function leave(chatroomName: string, cb: any) {
-    socket.emit('leave', chatroomName, cb);
+  /**
+   * Joins a given chatroom.
+   *
+   * @param {string} chatroomName
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public join(chatroomName: string, cb: any) {
+    this.socket.emit('join', chatroomName, cb);
   }
 
-  function message(chatroomName: string, msg: string, cb: any) {
-    socket.emit('message', { chatroomName, message: msg }, cb);
+  /**
+   * Leaves given chatroom.
+   *
+   * @param {string} chatroomName
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public leave(chatroomName: string, cb: any) {
+    this.socket.emit('leave', chatroomName, cb);
   }
 
-  function getChatrooms(cb: any) {
-    socket.emit('chatrooms', null, cb);
+  /**
+   * Send new message to chatroom.
+   *
+   * @param {string} chatroomName
+   * @param {string} msg
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public message(chatroomName: string, msg: string, cb: any) {
+    this.socket.emit('message', { chatroomName, message: msg }, cb);
   }
 
-  // function getAvailableUsers(cb:any) {
-  //   socket.emit('availableUsers', null, cb);
-  // }
-
-  return {
-    getChatrooms,
-    join,
-    leave,
-    message,
-    // getAvailableUsers,
-    register,
-    registerHandler,
-    unregisterHandler
-  };
+  /**
+   * Get all availevable chatrooms.
+   *
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public getChatrooms(cb: any) {
+    this.socket.emit('chatrooms', null, cb);
+  }
 }

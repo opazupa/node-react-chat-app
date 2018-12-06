@@ -3,7 +3,15 @@ import './css/App.css';
 import * as React from 'react';
 
 import logo from './logo.svg';
-import socket, { ISocket } from './socket/socket';
+import { ISocket, Socket } from './socket/Socket';
+
+export interface IChat {
+  cleintId: string;
+  userName: string;
+  timestamp: Date;
+  event?: string;
+  message?: string;
+}
 
 export interface IUser {
   id: string;
@@ -17,7 +25,7 @@ export interface IAppState {
   user?: IUser;
   name: string;
   room: string;
-  chathistory: any[];
+  chathistory: IChat[];
 }
 
 export interface IChatroom {
@@ -33,14 +41,14 @@ class App extends React.Component {
     this.state = {
       chathistory: [],
       chatroom: undefined,
-      client: socket(),
+      client: new Socket(),
       isRegisterInProcess: false,
       name: 'OlliMoll1',
       room: 'Room1',
       user: undefined
     };
 
-    this.state.client.registerHandler((chat: any) => {
+    this.state.client.registerHandler((chat: IChat) => {
       console.log(chat);
       this.setState({ chathistory: this.state.chathistory.concat(chat) });
     });
@@ -61,14 +69,14 @@ class App extends React.Component {
         <button onClick={() => this.leave(this.state.room)}>Leave</button>
         <button
           onClick={() =>
-            this.state.client.message(this.state.room, 'Hei olen olli', (err: any, chats: any[]) => {
+            this.state.client.message(this.state.room, 'Hei olen olli', (err: any, chats: IChat[]) => {
               console.log('viesti meni');
             })
           }
         >
           Send message
         </button>
-        {this.state.chathistory.map((chat, i) => [
+        {this.state.chathistory.map((chat: IChat, i) => [
           <div key={i}>
             {chat.event
               ? `${chat.event} ${new Date(chat.timestamp).toString()}`
@@ -80,13 +88,13 @@ class App extends React.Component {
   }
 
   private leave(room: string) {
-    this.state.client.leave(room, (err: any, chats: any[]) => {
+    this.state.client.leave(room, (err: any, chats: IChat[]) => {
       this.setState({ chatroom: undefined });
     });
   }
 
   private join(room: string) {
-    this.state.client.join(room, (err: any, chats: any[]) => {
+    this.state.client.join(room, (err: any, chats: IChat[]) => {
       this.setState({ chatrooms: room });
       this.setState({ chathistory: chats });
     });
