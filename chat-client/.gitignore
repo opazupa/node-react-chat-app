@@ -10,7 +10,7 @@
 /build
 
 # folder for preprocessed scss-files
-/src/css
+*.css
 
 # misc
 .DS_Store

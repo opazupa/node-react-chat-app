@@ -1,9 +1,9 @@
-import './css/App.css';
+import './App.css';
 
 import * as React from 'react';
 
+import { ISocket, Socket } from './common';
 import logo from './logo.svg';
-import { ISocket, Socket } from './socket/Socket';
 
 export interface IChat {
   cleintId: string;

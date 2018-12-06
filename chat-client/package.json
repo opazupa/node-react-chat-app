@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/css",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/css --watch --recursive",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-js": "react-scripts-ts start",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm run build-css && react-scripts-ts build",
