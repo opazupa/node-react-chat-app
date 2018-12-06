@@ -11,7 +11,7 @@ export interface IUser {
 }
 
 export interface IAppState {
-  chatrooms: IChatroom[];
+  chatroom?: IChatroom;
   client: ISocket;
   isRegisterInProcess: boolean;
   user?: IUser;
@@ -32,7 +32,7 @@ class App extends React.Component {
 
     this.state = {
       chathistory: [],
-      chatrooms: [],
+      chatroom: undefined,
       client: socket(),
       isRegisterInProcess: false,
       name: 'OlliMoll1',
@@ -58,6 +58,7 @@ class App extends React.Component {
         </p>
         <button onClick={() => this.register()}>Register</button>
         <button onClick={() => this.join(this.state.room)}>Join</button>
+        <button onClick={() => this.leave(this.state.room)}>Leave</button>
         <button
           onClick={() =>
             this.state.client.message(this.state.room, 'Hei olen olli', (err: any, chats: any[]) => {
@@ -70,7 +71,7 @@ class App extends React.Component {
         {this.state.chathistory.map((chat, i) => [
           <div key={i}>
             {chat.event
-              ? `${chat.event} ${Date.parse(chat.timestamp)}`
+              ? `${chat.event} ${new Date(chat.timestamp).toString()}`
               : `${chat.userName} ${chat.message} ${new Date(chat.timestamp).toString()}`}
           </div>
         ])}
@@ -78,9 +79,15 @@ class App extends React.Component {
     );
   }
 
+  private leave(room: string) {
+    this.state.client.leave(room, (err: any, chats: any[]) => {
+      this.setState({ chatroom: undefined });
+    });
+  }
+
   private join(room: string) {
     this.state.client.join(room, (err: any, chats: any[]) => {
-      this.setState({ chatrooms: [...this.state.chatrooms, room] });
+      this.setState({ chatrooms: room });
       this.setState({ chathistory: chats });
     });
   }

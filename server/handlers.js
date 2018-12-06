@@ -6,7 +6,7 @@
  * @param {*} chatroomManager
  * @returns
  */
-function makeHandleEvent(client, clientManager, chatroomManager) {
+const makeHandleEvent = (client, clientManager, chatroomManager) => {
   /**
    * Helper function to create promises.
    *
@@ -14,12 +14,12 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
    * @param {*} rejectionMessage
    * @returns
    */
-  function ensureExists(getter, rejectionMessage) {
-    return new Promise(function(resolve, reject) {
+  const ensureExists = (getter, rejectionMessage) => {
+    return new Promise((resolve, reject) => {
       const res = getter();
       return res ? resolve(res) : reject(rejectionMessage);
     });
-  }
+  };
 
   /**
    * Verifies that user exists.
@@ -27,9 +27,9 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
    * @param {*} clientId
    * @returns
    */
-  function ensureUser(clientId) {
+  const ensureUser = clientId => {
     return ensureExists(() => clientManager.getUserByClientId(clientId), 'Add nickname to chat');
-  }
+  };
 
   /**
    * Verifies that chatroom exists.
@@ -37,9 +37,9 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
    * @param {*} chatroomName
    * @returns
    */
-  function ensureValidChatroom(chatroomName) {
+  const ensureValidChatroom = chatroomName => {
     return ensureExists(() => chatroomManager.getChatroomByName(chatroomName), `Invalid chatroom name: ${chatroomName}`);
-  }
+  };
 
   /**
    * Verifies that both chatroom and user exists.
@@ -66,7 +66,7 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
   }
 
   return handleEvent;
-}
+};
 
 /**
  * Exported handler functions.
@@ -76,7 +76,7 @@ function makeHandleEvent(client, clientManager, chatroomManager) {
  * @param {*} chatroomManager
  * @returns
  */
-module.exports = function(client, clientManager, chatroomManager) {
+export default (client, clientManager, chatroomManager) => {
   const handleEvent = makeHandleEvent(client, clientManager, chatroomManager);
 
   /**
@@ -86,13 +86,13 @@ module.exports = function(client, clientManager, chatroomManager) {
    * @param {*} callback
    * @returns
    */
-  function handleRegister(userName, callback) {
+  const handleRegister = (userName, callback) => {
     if (!clientManager.isUserAvailable(userName)) return callback(`Nickname ${userName} not available`);
 
     clientManager.registerClient(client, userName);
 
     return callback(null, { id: client.id, userName });
-  }
+  };
 
   /**
    * Handles joining a chatroom.
@@ -150,13 +150,12 @@ module.exports = function(client, clientManager, chatroomManager) {
   /**
    * Handles getting existing chatrooms.
    *
-   * @param {*} _
    * @param {*} callback
    * @returns
    */
-  function handleGetChatrooms(_, callback) {
+  const handleGetChatrooms = callback => {
     return callback(null, chatroomManager.serializeChatrooms());
-  }
+  };
 
   /**
    * Handles adding a new chatroom.
@@ -165,21 +164,21 @@ module.exports = function(client, clientManager, chatroomManager) {
    * @param {*} callback
    * @returns
    */
-  function handleCreateChatroom(chatroomName, callback) {
+  const handleCreateChatroom = (chatroomName, callback) => {
     // TODO Olli create new chat room for users to chat in
     return;
-  }
+  };
 
   /**
    * Handles client disconnect.
    *
    */
-  function handleDisconnect() {
+  const handleDisconnect = () => {
     // remove user profile
     clientManager.removeClient(client);
     // remove member from all chatrooms
     chatroomManager.removeClient(client);
-  }
+  };
 
   return {
     handleRegister,

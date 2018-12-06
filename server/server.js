@@ -1,22 +1,22 @@
-const cors = require('cors');
-const express = require('express');
-const http = require('http');
-const socketIO = require('socket.io');
+import cors from 'cors';
+import express from 'express';
+import { Server } from 'http';
+import socketIO from 'socket.io';
 
-const ClientManager = require('./managers/ClientManager');
-const ChatroomManager = require('./managers/ChatroomManager');
-const makeHandlers = require('./handlers');
+import makeHandlers from './handlers';
+import ChatroomManager from './managers/ChatroomManager';
+import ClientManager from './managers/ClientManager';
 
+// Set up express and socketIO
 const app = express();
 app.use(cors());
-
-const server = http.Server(app);
+const server = Server(app);
 const io = socketIO(server);
 
-const clientManager = ClientManager();
-const chatroomManager = ChatroomManager();
+const clientManager = new ClientManager();
+const chatroomManager = new ChatroomManager();
 
-io.on('connection', function(client) {
+io.on('connection', client => {
   const {
     handleRegister,
     handleJoin,
@@ -42,12 +42,12 @@ io.on('connection', function(client) {
 
   client.on('create chatroom', handleCreateChatroom);
 
-  client.on('disconnect', function() {
+  client.on('disconnect', () => {
     console.log('Client disconnect...', client.id);
     handleDisconnect();
   });
 
-  client.on('error', function(err) {
+  client.on('error', err => {
     console.log('Received error from client:', client.id);
     console.log(err);
   });

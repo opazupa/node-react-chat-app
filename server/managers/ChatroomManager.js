@@ -1,4 +1,5 @@
-const Chatroom = require('../models/Chatroom');
+import Chatroom from '../models/Chatroom';
+
 // Todo get from mongo DB!
 const CHATROOMS = [{ name: 'Room1', theme: null }, { name: 'Room2', theme: null }];
 
@@ -6,18 +7,23 @@ const CHATROOMS = [{ name: 'Room1', theme: null }, { name: 'Room2', theme: null 
  *
  * ChatroomManager to handle chatroom stuff.
  *
+ * @export
+ * @class ChatroomManager
  */
-module.exports = function() {
-  // Map all availevable chatroom
-  const chatrooms = new Map(CHATROOMS.map(c => [c.name, Chatroom(c)]));
+export default class ChatroomManager {
+  // Map all availevable chatrooms
+  constructor() {
+    this.chatrooms = new Map(CHATROOMS.map(c => [c.name, new Chatroom(c)]));
+  }
 
   /**
    * Removes client from all chatrooms.
    *
    * @param {*} client
+   * @memberof ChatroomManager
    */
-  function removeClient(client) {
-    chatrooms.forEach(c => c.removeUser(client));
+  removeClient(client) {
+    this.chatrooms.forEach(c => c.removeUser(client));
   }
 
   /**
@@ -25,23 +31,19 @@ module.exports = function() {
    *
    * @param {*} chatroomName
    * @returns
+   * @memberof ChatroomManager
    */
-  function getChatroomByName(chatroomName) {
-    return chatrooms.get(chatroomName);
+  getChatroomByName(chatroomName) {
+    return this.chatrooms.get(chatroomName);
   }
 
   /**
    * Returns serialized chatrooms.
    *
    * @returns
+   * @memberof ChatroomManager
    */
-  function serializeChatrooms() {
-    return Array.from(chatrooms.values()).map(c => c.serialize());
+  serializeChatrooms() {
+    return Array.from(this.chatrooms.values()).map(c => c.serialize());
   }
-
-  return {
-    removeClient,
-    getChatroomByName,
-    serializeChatrooms
-  };
-};
+}

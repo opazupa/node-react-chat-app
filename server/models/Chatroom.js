@@ -2,77 +2,81 @@
  *
  * Chatroom class to handle single chatroom stuff.
  *
+ * @export
+ * @class Chatroom
  */
-module.exports = function({ name, theme }) {
-  const members = new Map();
-  // TODO persist history to mongodb
-  let chatHistory = [];
+export default class Chatroom {
+  constructor(room) {
+    this.name = room.name;
+    this.theme = room.theme;
+
+    this.members = new Map();
+    // TODO persist history to mongodb
+    this.chatHistory = [];
+  }
 
   /**
    * Broadcasts message to all subscribed clients.
    *
    * @param {*} message
+   * @memberof Chatroom
    */
-  function broadcastMessage(message) {
-    members.forEach(m => m.emit('message', message));
+  broadcastMessage(message) {
+    this.members.forEach(m => m.emit('message', message));
   }
 
   /**
    * Adds new entry to chat.
    *
    * @param {*} entry
+   * @memberof Chatroom
    */
-  function addEntry(entry) {
-    chatHistory = chatHistory.concat(entry);
+  addEntry(entry) {
+    this.chatHistory = this.chatHistory.concat(entry);
   }
 
   /**
    * Gets chat history.
    * TODO Olli shoudl we return a max eg. 100 chats in join
    *
+   * @memberof Chatroom
    * @returns
    */
-  function getChatHistory() {
-    return chatHistory.slice();
+  getChatHistory() {
+    return this.chatHistory.slice();
   }
 
   /**
    * Adds user to chatroom.
    *
+   * @memberof Chatroom
    * @param {*} client
    */
-  function addUser(client) {
-    members.set(client.id, client);
+  addUser(client) {
+    this.members.set(client.id, client);
   }
 
   /**
    * Removes user from the chatroom.
    *
+   * @memberof Chatroom
    * @param {*} client
    */
-  function removeUser(client) {
-    members.delete(client.id);
+  removeUser(client) {
+    this.members.delete(client.id);
   }
 
   /**
    * Serializes single chatroom.
    *
+   * @memberof Chatroom
    * @returns
    */
-  function serialize() {
+  serialize() {
     return {
-      name,
-      theme,
-      numMembers: members.size
+      name: this.name,
+      theme: this.theme,
+      members: members.size
     };
   }
-
-  return {
-    broadcastMessage,
-    addEntry,
-    getChatHistory,
-    addUser,
-    removeUser,
-    serialize
-  };
-};
+}

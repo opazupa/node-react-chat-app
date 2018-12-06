@@ -2,18 +2,23 @@
  *
  * ClientManager to handle client stuff.
  *
+ * @export
+ * @class ClientManager
  */
-module.exports = function() {
+export default class ClientManager {
   // All clients in the chat.
-  const clients = new Map();
+  constructor() {
+    this.clients = new Map();
+  }
 
   /**
    * Adds client for manager.
    *
    * @param {*} client
+   * @memberof ClientManager
    */
-  function addClient(client) {
-    clients.set(client.id, { client });
+  addClient(client) {
+    this.clients.set(client.id, { client });
   }
 
   /**
@@ -21,9 +26,10 @@ module.exports = function() {
    *
    * @param {*} userName
    * @returns
+   * @memberof ClientManager
    */
-  function isUserAvailable(userName) {
-    const takenNames = Array.from(clients.values())
+  isUserAvailable(userName) {
+    const takenNames = Array.from(this.clients.values())
       .filter(client => client.userName)
       .map(client => client.userName);
     return !takenNames.some(name => name === userName);
@@ -34,18 +40,20 @@ module.exports = function() {
    *
    * @param {*} client
    * @param {*} userName
+   * @memberof ClientManager
    */
-  function registerClient(client, userName) {
-    clients.set(client.id, { client, userName });
+  registerClient(client, userName) {
+    this.clients.set(client.id, { client, userName });
   }
 
   /**
    * Removes client from manager.
    *
    * @param {*} client
+   * @memberof ClientManager
    */
-  function removeClient(client) {
-    clients.delete(client.id);
+  removeClient(client) {
+    this.clients.delete(client.id);
   }
 
   /**
@@ -53,9 +61,10 @@ module.exports = function() {
    *
    * @param {*} userName
    * @returns
+   * @memberof ClientManager
    */
-  function getUserByName(userName) {
-    return Array.from(clients.values()).find(u => u.name === userName);
+  getUserByName(userName) {
+    return Array.from(this.clients.values()).find(u => u.name === userName);
   }
 
   /**
@@ -63,17 +72,9 @@ module.exports = function() {
    *
    * @param {*} clientId
    * @returns
+   * @memberof ClientManager
    */
-  function getUserByClientId(clientId) {
-    return (clients.get(clientId) || {}).userName;
+  getUserByClientId(clientId) {
+    return (this.clients.get(clientId) || {}).userName;
   }
-
-  return {
-    addClient,
-    isUserAvailable,
-    registerClient,
-    removeClient,
-    getUserByName,
-    getUserByClientId
-  };
-};
+}
