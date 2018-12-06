@@ -6,7 +6,6 @@ const styles = {
   grow: {
     flexGrow: 1
   },
-  navLinks: {},
   root: {
     flexGrow: 1
   }
@@ -23,11 +22,15 @@ const NavBar = (props: any) => {
           Olli's chat
         </Typography>
         <div className={classes.navLinks}>
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Button variant="outlined">Home</Button>
+          <Link to="/" style={{ textDecoration: 'none', paddingRight: '5px' }}>
+            <Button size="large" color="secondary" variant="contained">
+              Home
+            </Button>
           </Link>
           <Link to="/chatrooms" style={{ textDecoration: 'none' }}>
-            <Button variant="outlined">Chat rooms</Button>
+            <Button size="large" color="secondary" variant="contained">
+              Chat rooms
+            </Button>
           </Link>
         </div>
       </Toolbar>

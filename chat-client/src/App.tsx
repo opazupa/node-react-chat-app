@@ -1,9 +1,11 @@
 import './App.css';
 
 import * as React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import { ISocket, Socket } from './common';
+import { NoMatch } from './common/utils/NoMatch';
+import { ProtectedRoute } from './common/utils/ProtectedRoute';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
 import logo from './logo.svg';
@@ -68,9 +70,11 @@ class App extends React.Component {
         </Navbar>
         <main className="main-container">
           <Switch>
+            {/* TODO olli add valid protections to routes */}
             <Route exact path="/" component={Home} />
-            <Route path="/chatrooms" component={ChatroomSelection} />
-            <Route path="/chatroom/:id" component={Chatroom} />
+            <ProtectedRoute exact isAllowed={true} path="/chatrooms" component={ChatroomSelection} />
+            <ProtectedRoute isAllowed={true} path="/chatroom/:id" component={Chatroom} />
+            <Route component={NoMatch} />
           </Switch>
         </main>
         <Footer />
@@ -99,7 +103,6 @@ class App extends React.Component {
       </div>
     );
   }
-
   // private leave(room: string) {
   //   this.state.client.leave(room, (err: any, chats: IChat[]) => {
   //     this.setState({ chatroom: undefined });
