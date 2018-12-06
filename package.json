@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/opazupa/node-react-chat-app#readme",
   "dependencies": {
+    "@types/react-router-dom": "^4.3.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "mongoose": "^5.3.13",
+    "react-router-dom": "^4.3.1",
     "socket.io": "^2.1.1"
   },
   "devDependencies": {

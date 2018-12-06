@@ -1,9 +1,15 @@
 import './App.css';
 
 import * as React from 'react';
+import { Route, Switch } from 'react-router';
 
 import { ISocket, Socket } from './common';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import logo from './logo.svg';
+import { Chatroom } from './views/Chatroom';
+import { ChatroomSelection } from './views/ChatroomSelection';
+import { Home } from './views/Home';
 
 export interface IChat {
   cleintId: string;
@@ -48,20 +54,27 @@ class App extends React.Component {
       user: undefined
     };
 
-    this.state.client.registerHandler((chat: IChat) => {
-      console.log(chat);
-      this.setState({ chathistory: this.state.chathistory.concat(chat) });
-    });
+    // this.state.client.registerHandler((chat: IChat) => {
+    //   console.log(chat);
+    //   this.setState({ chathistory: this.state.chathistory.concat(chat) });
+    // });
   }
 
   public render() {
     return (
       <div className="App">
-        <header className="App-header">
+        <Navbar>
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
+        </Navbar>
+        <main className="main-container">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/chatrooms" component={ChatroomSelection} />
+            <Route path="/chatroom/:id" component={Chatroom} />
+          </Switch>
+        </main>
+        <Footer />
+        {/* <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
         <button onClick={() => this.register()}>Register</button>
@@ -82,34 +95,34 @@ class App extends React.Component {
               ? `${chat.event} ${new Date(chat.timestamp).toString()}`
               : `${chat.userName} ${chat.message} ${new Date(chat.timestamp).toString()}`}
           </div>
-        ])}
+        ])} */}
       </div>
     );
   }
 
-  private leave(room: string) {
-    this.state.client.leave(room, (err: any, chats: IChat[]) => {
-      this.setState({ chatroom: undefined });
-    });
-  }
+  // private leave(room: string) {
+  //   this.state.client.leave(room, (err: any, chats: IChat[]) => {
+  //     this.setState({ chatroom: undefined });
+  //   });
+  // }
 
-  private join(room: string) {
-    this.state.client.join(room, (err: any, chats: IChat[]) => {
-      this.setState({ chatrooms: room });
-      this.setState({ chathistory: chats });
-    });
-  }
+  // private join(room: string) {
+  //   this.state.client.join(room, (err: any, chats: IChat[]) => {
+  //     this.setState({ chatrooms: room });
+  //     this.setState({ chathistory: chats });
+  //   });
+  // }
 
-  private register() {
-    const onRegisterResponse = (user?: IUser) => this.setState({ isRegisterInProcess: false, user });
-    this.setState({ isRegisterInProcess: true });
-    this.state.client.register(this.state.name, (err: any, user: IUser) => {
-      if (err) {
-        return onRegisterResponse(undefined);
-      }
-      return onRegisterResponse(user);
-    });
-  }
+  // private register() {
+  //   const onRegisterResponse = (user?: IUser) => this.setState({ isRegisterInProcess: false, user });
+  //   this.setState({ isRegisterInProcess: true });
+  //   this.state.client.register(this.state.name, (err: any, user: IUser) => {
+  //     if (err) {
+  //       return onRegisterResponse(undefined);
+  //     }
+  //     return onRegisterResponse(user);
+  //   });
+  // }
 }
 
 export default App;
