@@ -2,7 +2,18 @@ import { AppBar, Button, Toolbar, Typography, withStyles } from '@material-ui/co
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+
+// TODO const the highlight color #ffb7b7
+const NavLinks = styled.div`
+  height: 64px;
+  display: flex;
+
+  a.active {
+    border-bottom-color: #ffb7b7;
+  }
+`;
 
 const styles = {
   grow: {
@@ -11,9 +22,18 @@ const styles = {
   root: {
     flexGrow: 1
   },
-  navButton: {
+  navLink: {
     textDecoration: 'none',
-    paddingLeft: '5px'
+    display: 'flex',
+    boxSizing: 'border-box' as 'border-box',
+    borderBottom: '3px solid transparent',
+    transition: 'border 0.5s ease-in-out'
+  },
+  navLinkButton: {
+    color: 'black',
+    boxSizing: 'border-box' as 'border-box',
+    borderBottom: '3px solid transparent',
+    marginBottom: '-3px'
   },
   buttonIcon: {
     marginLeft: '5px'
@@ -30,20 +50,20 @@ const NavBar = (props: any) => {
         <Typography variant="h6" className={classes.grow}>
           Olli's chat
         </Typography>
-        <div className={classes.navLinks}>
-          <Link to="/" className={classes.navButton}>
-            <Button size="large" color="secondary">
+        <NavLinks>
+          <NavLink exact to="/" className={classes.navLink} activeClassName="active">
+            <Button size="large" color="secondary" className={classes.navLinkButton}>
               Home
               <HomeIcon className={classes.buttonIcon} />
             </Button>
-          </Link>
-          <Link to="/chatrooms" className={classes.navButton}>
-            <Button size="large" color="secondary">
+          </NavLink>
+          <NavLink to="/chatrooms" className={classes.navLink} activeClassName="active">
+            <Button size="large" color="secondary" className={classes.navLinkButton}>
               Chat rooms
               <ChatroomIcon className={classes.buttonIcon} />
             </Button>
-          </Link>
-        </div>
+          </NavLink>
+        </NavLinks>
       </Toolbar>
     </AppBar>
   );

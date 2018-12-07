@@ -2,6 +2,7 @@ import './styles/App.css';
 
 import { Button, createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { amber, green, grey, red } from '@material-ui/core/colors';
+import * as colors from '@material-ui/core/colors';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -106,6 +107,8 @@ class App extends React.Component {
       user: undefined,
       theme
     };
+
+    console.log(colors);
 
     // this.state.client.registerHandler((chat: IChat) => {
     //   console.log(chat);
