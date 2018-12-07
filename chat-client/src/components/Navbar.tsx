@@ -1,4 +1,6 @@
 import { AppBar, Button, Toolbar, Typography, withStyles } from '@material-ui/core';
+import ChatroomIcon from '@material-ui/icons/BallotOutlined';
+import HomeIcon from '@material-ui/icons/HomeOutlined';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +10,13 @@ const styles = {
   },
   root: {
     flexGrow: 1
+  },
+  navButton: {
+    textDecoration: 'none',
+    paddingLeft: '5px'
+  },
+  buttonIcon: {
+    marginLeft: '5px'
   }
 };
 
@@ -22,14 +31,16 @@ const NavBar = (props: any) => {
           Olli's chat
         </Typography>
         <div className={classes.navLinks}>
-          <Link to="/" style={{ textDecoration: 'none', paddingRight: '5px' }}>
-            <Button size="large" color="secondary" variant="contained">
+          <Link to="/" className={classes.navButton}>
+            <Button size="large" color="secondary">
               Home
+              <HomeIcon className={classes.buttonIcon} />
             </Button>
           </Link>
-          <Link to="/chatrooms" style={{ textDecoration: 'none' }}>
-            <Button size="large" color="secondary" variant="contained">
+          <Link to="/chatrooms" className={classes.navButton}>
+            <Button size="large" color="secondary">
               Chat rooms
+              <ChatroomIcon className={classes.buttonIcon} />
             </Button>
           </Link>
         </div>

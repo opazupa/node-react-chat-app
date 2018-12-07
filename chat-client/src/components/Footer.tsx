@@ -1,14 +1,18 @@
 import { AppBar, withStyles } from '@material-ui/core';
-import FavoriteOutlined from '@material-ui/icons/FavoriteOutlined';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import * as React from 'react';
 
 const styles = {
   footer: {
     bottom: 0,
     height: '60px',
-    'line-height': '60px',
-    'text-align': 'center',
+    lineHeight: '60px',
+    textAlign: 'center' as 'center',
     top: 'auto'
+  },
+  icon: {
+    color: 'red',
+    verticalAlign: 'sub'
   }
 };
 
@@ -19,7 +23,7 @@ const Footer = (props: any) => {
     <AppBar className={classes.footer} position="fixed">
       <footer>
         <span>Coded with </span>
-        <FavoriteOutlined style={{ color: 'red', verticalAlign: 'sub' }} />
+        <FavoriteIcon className={classes.icon} />
         <span> Olli &copy;2018</span>
       </footer>
     </AppBar>
