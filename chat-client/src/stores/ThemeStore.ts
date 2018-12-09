@@ -2,21 +2,13 @@ import { Color } from '@material-ui/core';
 import { amber, grey, red } from '@material-ui/core/colors';
 import { action, observable } from 'mobx';
 
+import { ITheme } from '../common/models/ITheme';
 import { autoSave } from './utils/AutoSave';
 
 export interface IThemeStore {
   theme: ITheme;
   set: (primary: Color, secondary: Color, error: Color, type: 'light' | 'dark') => void;
   reset: () => void;
-}
-export interface ITheme {
-  colors: {
-    primary: Color;
-    secondary: Color;
-    error: Color;
-    type: 'light' | 'dark';
-  };
-  typography: any;
 }
 export const DEFAULT_THEME = {
   colors: {

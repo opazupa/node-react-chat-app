@@ -1,4 +1,4 @@
-import { Button, createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
+import { Button, CssBaseline, MuiThemeProvider } from '@material-ui/core';
 import { green, grey, red } from '@material-ui/core/colors';
 import * as colors from '@material-ui/core/colors';
 import { inject, observer } from 'mobx-react';
@@ -7,23 +7,16 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ISocket, Socket } from './common';
-import { IChat, IChatroom, IUser } from './common/models';
+import { createTheme, IChat, IChatroom, IUser } from './common/models';
 import { NoMatch } from './common/utils/NoMatch';
 import ProtectedUserRoute from './common/utils/ProtectedUserRoute';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import { ITheme, IThemeStore } from './stores/ThemeStore';
+import { IThemeStore } from './stores/ThemeStore';
 import { IUserStore } from './stores/UserStore';
 import { Chatroom } from './views/Chatroom';
 import { ChatroomSelection } from './views/ChatroomSelection';
 import { Home } from './views/Home';
-
-const getTheme = (theme: ITheme) => {
-  return createMuiTheme({
-    palette: { ...theme.colors },
-    typography: { ...theme.typography }
-  });
-};
 
 interface IAppProps {
   themeStore?: IThemeStore;
@@ -75,7 +68,7 @@ class App extends React.Component<IAppProps, IAppState> {
     const { themeStore } = this.props as IAppProps;
     console.log(themeStore!.theme.colors);
     return (
-      <MuiThemeProvider theme={getTheme(themeStore!.theme)}>
+      <MuiThemeProvider theme={createTheme(themeStore!.theme)}>
         <CssBaseline />
         <Navbar />
         <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark')}>

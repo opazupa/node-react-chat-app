@@ -15,7 +15,8 @@ const styles = {
 };
 
 const AnimatedFavoriteIcon = styled(props => <FavoriteIcon {...props} />)`
-  transition: 0.5s linear !important;
+  -webkit-transition: all 0.5s linear 0.2s !important;
+  transition: all 0.5s linear 0.2s !important;
   vertical-align: sub;
   color: ${HIGHLIGHT_COLOR};
 

@@ -9,6 +9,7 @@ import { IUserStore } from 'src/stores/UserStore';
 import styled from 'styled-components';
 
 import logo from '../logo.svg';
+import InfoBlock from './InfoBlock';
 
 // TODO const the highlight color #ffb7b7
 const NavLinks = styled.div`
@@ -76,7 +77,7 @@ class NavBar extends React.Component<INavBarProps, {}> {
         <Toolbar>
           <SpinningLogo src={logo} className="App-logo" alt="logo" />
           <Typography variant="h6" className={classes.grow}>
-            Olli's chat: {userStore!.user && userStore!.user!.userName}
+            <InfoBlock user={userStore!.user} />
           </Typography>
           <NavLinks>
             <NavLink exact to="/" className={classes.navLink} activeClassName="active">
