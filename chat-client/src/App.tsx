@@ -1,35 +1,36 @@
-import './styles/App.css';
-
 import { Button, createMuiTheme, CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { amber, green, grey, red } from '@material-ui/core/colors';
+import { green, grey, red } from '@material-ui/core/colors';
 import * as colors from '@material-ui/core/colors';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { ISocket, Socket } from './common';
+import { IChat, IChatroom, IUser } from './common/models';
 import { NoMatch } from './common/utils/NoMatch';
-import { ProtectedRoute } from './common/utils/ProtectedRoute';
+import ProtectedUserRoute from './common/utils/ProtectedUserRoute';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
-import logo from './logo.svg';
+import { ITheme, IThemeStore } from './stores/ThemeStore';
+import { IUserStore } from './stores/UserStore';
 import { Chatroom } from './views/Chatroom';
 import { ChatroomSelection } from './views/ChatroomSelection';
 import { Home } from './views/Home';
 
-export interface IChat {
-  cleintId: string;
-  userName: string;
-  timestamp: Date;
-  event?: string;
-  message?: string;
+const getTheme = (theme: ITheme) => {
+  return createMuiTheme({
+    palette: { ...theme.colors },
+    typography: { ...theme.typography }
+  });
+};
+
+interface IAppProps {
+  themeStore?: IThemeStore;
+  userStore?: IUserStore;
 }
 
-export interface IUser {
-  id: string;
-  name: string;
-}
-
-export interface IAppState {
+interface IAppState {
   chatroom?: IChatroom;
   client: ISocket;
   isRegisterInProcess: boolean;
@@ -37,65 +38,20 @@ export interface IAppState {
   name: string;
   room: string;
   chathistory: IChat[];
-  theme: any;
 }
 
-export interface IChatroom {
-  name: string;
-}
+const Main = styled.main`
+  padding: 10px 15px;
+`;
 
-const theme = createMuiTheme({
-  palette: {
-    primary: grey,
-    secondary: amber,
-    error: red,
-    type: 'light'
-  },
-  typography: {
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(',')
-  }
-});
-
-const theme2 = createMuiTheme({
-  palette: {
-    primary: grey,
-    secondary: green,
-    error: red,
-    type: 'dark'
-  },
-  typography: {
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(',')
-  }
-});
-
-class App extends React.Component {
+@(withRouter as any)
+@inject('themeStore')
+@inject('userStore')
+@observer
+class App extends React.Component<IAppProps, IAppState> {
   public state: IAppState;
 
-  constructor(props: any, context: any) {
+  constructor(props: IAppProps, context: any) {
     super(props, context);
     this.state = {
       chathistory: [],
@@ -104,42 +60,41 @@ class App extends React.Component {
       isRegisterInProcess: false,
       name: 'OlliMoll1',
       room: 'Room1',
-      user: undefined,
-      theme
+      user: undefined
     };
 
     console.log(colors);
 
-    // this.state.client.registerHandler((chat: IChat) => {
-    //   console.log(chat);
-    //   this.setState({ chathistory: this.state.chathistory.concat(chat) });
-    // });
+    this.state.client.registerHandler((chat: IChat) => {
+      console.log(chat);
+      this.setState({ chathistory: this.state.chathistory.concat(chat) });
+    });
   }
 
   public render() {
+    const { themeStore } = this.props as IAppProps;
+    console.log(themeStore!.theme.colors);
     return (
-      <MuiThemeProvider theme={this.state.theme}>
+      <MuiThemeProvider theme={getTheme(themeStore!.theme)}>
         <CssBaseline />
-        <Navbar>
-          <img src={logo} className="App-logo" alt="logo" />
-        </Navbar>
-        <Button variant="outlined" onClick={() => this.setState({ theme: this.state.theme === theme ? theme2 : theme })}>
-          Switch theme
+        <Navbar />
+        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark')}>
+          Switch theme to green
         </Button>
-        <main className="main-container">
+        <button onClick={() => this.register()}>Register</button>
+        <Main>
           <Switch>
             {/* TODO olli add valid protections to routes */}
             <Route exact path="/" component={Home} />
-            <ProtectedRoute exact isAllowed={true} path="/chatrooms" component={ChatroomSelection} />
-            <ProtectedRoute isAllowed={true} path="/chatroom/:id" component={Chatroom} />
+            <ProtectedUserRoute exact path="/chatrooms" component={ChatroomSelection} />
+            <ProtectedUserRoute path="/chatroom/:id" component={Chatroom} />
             <Route component={NoMatch} />
           </Switch>
-        </main>
+        </Main>
         <Footer />
         {/* <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <button onClick={() => this.register()}>Register</button>
         <button onClick={() => this.join(this.state.room)}>Join</button>
         <button onClick={() => this.leave(this.state.room)}>Leave</button>
         <button
@@ -174,16 +129,20 @@ class App extends React.Component {
   //   });
   // }
 
-  // private register() {
-  //   const onRegisterResponse = (user?: IUser) => this.setState({ isRegisterInProcess: false, user });
-  //   this.setState({ isRegisterInProcess: true });
-  //   this.state.client.register(this.state.name, (err: any, user: IUser) => {
-  //     if (err) {
-  //       return onRegisterResponse(undefined);
-  //     }
-  //     return onRegisterResponse(user);
-  //   });
-  // }
+  private register() {
+    const onRegisterResponse = (user?: IUser) => {
+      console.log(user);
+      this.setState({ isRegisterInProcess: false });
+      this.props.userStore!.register(user!);
+    };
+    this.setState({ isRegisterInProcess: true });
+    this.state.client.register(this.state.name, (err: any, user: IUser) => {
+      if (err) {
+        this.props.userStore!.unRegister();
+      }
+      return onRegisterResponse(user);
+    });
+  }
 }
 
 export default App;

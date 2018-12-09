@@ -1,9 +1,14 @@
 import { AppBar, Button, Toolbar, Typography, withStyles } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
+import { HIGHLIGHT_COLOR } from 'src/common/utils/Constants';
+import { IUserStore } from 'src/stores/UserStore';
 import styled from 'styled-components';
+
+import logo from '../logo.svg';
 
 // TODO const the highlight color #ffb7b7
 const NavLinks = styled.div`
@@ -11,7 +16,22 @@ const NavLinks = styled.div`
   display: flex;
 
   a.active {
-    border-bottom-color: #ffb7b7;
+    border-bottom-color: ${HIGHLIGHT_COLOR};
+  }
+`;
+
+const SpinningLogo = styled(props => <img {...props} />)`
+  animation: logo-spin infinite 20s linear;
+  height: 60px;
+
+  @keyframes logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -40,33 +60,42 @@ const styles = {
   }
 };
 
-const NavBar = (props: any) => {
-  const { classes } = props;
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        {/* Render spinning logo here :) */}
-        {props.children}
-        <Typography variant="h6" className={classes.grow}>
-          Olli's chat
-        </Typography>
-        <NavLinks>
-          <NavLink exact to="/" className={classes.navLink} activeClassName="active">
-            <Button size="large" color="secondary" className={classes.navLinkButton}>
-              Home
-              <HomeIcon className={classes.buttonIcon} />
-            </Button>
-          </NavLink>
-          <NavLink to="/chatrooms" className={classes.navLink} activeClassName="active">
-            <Button size="large" color="secondary" className={classes.navLinkButton}>
-              Chat rooms
-              <ChatroomIcon className={classes.buttonIcon} />
-            </Button>
-          </NavLink>
-        </NavLinks>
-      </Toolbar>
-    </AppBar>
-  );
-};
+interface INavBarProps {
+  classes: any;
+  userStore?: IUserStore;
+}
+
+@(withRouter as any)
+@inject('userStore')
+@observer
+class NavBar extends React.Component<INavBarProps, {}> {
+  public render() {
+    const { classes, userStore } = this.props;
+    return (
+      <AppBar position="static">
+        <Toolbar>
+          <SpinningLogo src={logo} className="App-logo" alt="logo" />
+          <Typography variant="h6" className={classes.grow}>
+            Olli's chat: {userStore!.user && userStore!.user!.userName}
+          </Typography>
+          <NavLinks>
+            <NavLink exact to="/" className={classes.navLink} activeClassName="active">
+              <Button size="large" color="secondary" className={classes.navLinkButton}>
+                Home
+                <HomeIcon className={classes.buttonIcon} />
+              </Button>
+            </NavLink>
+            <NavLink to="/chatrooms" className={classes.navLink} activeClassName="active">
+              <Button size="large" color="secondary" className={classes.navLinkButton}>
+                Chat rooms
+                <ChatroomIcon className={classes.buttonIcon} />
+              </Button>
+            </NavLink>
+          </NavLinks>
+        </Toolbar>
+      </AppBar>
+    );
+  }
+}
 
 export default withStyles(styles)(NavBar);

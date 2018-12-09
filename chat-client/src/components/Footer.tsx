@@ -1,6 +1,7 @@
 import { AppBar, withStyles } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import * as React from 'react';
+import { HIGHLIGHT_COLOR } from 'src/common/utils/Constants';
 import styled from 'styled-components';
 
 const styles = {
@@ -14,13 +15,13 @@ const styles = {
 };
 
 const AnimatedFavoriteIcon = styled(props => <FavoriteIcon {...props} />)`
-  transition: 1s linear !important;
+  transition: 0.5s linear !important;
   vertical-align: sub;
-  color: #ffb7b7;
+  color: ${HIGHLIGHT_COLOR};
 
   &:hover {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 `;
 

@@ -27,7 +27,7 @@ export class Socket implements ISocket {
   private socket: SocketIOClient.Socket;
 
   constructor() {
-    this.socket = socketIO.connect(process.env.SERVER_URL || '');
+    this.socket = socketIO.connect(process.env.REACT_APP_SERVER_URL || '');
 
     this.socket.on('error', (err: any) => {
       console.log('received socket error:' + err);

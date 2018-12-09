@@ -1,14 +1,14 @@
- body {
-   margin: 0;
-   padding: 0;
-   font-family: sans-serif;
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900");
 
- }
+body {
+  font-family: 'Raleway', 'Segoe UI';
 
- ::selection {
-   background: #ffb7b7;
- }
+}
 
- ::-moz-selection {
-   background: #ffb7b7;
- }
+::selection {
+  background: #ffb7b7;
+}
+
+::-moz-selection {
+  background: #ffb7b7;
+}
