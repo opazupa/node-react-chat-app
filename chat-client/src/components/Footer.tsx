@@ -7,8 +7,8 @@ import styled from 'styled-components';
 const styles = {
   footer: {
     bottom: 0,
-    height: '30px',
-    lineHeight: '30px',
+    height: '42px',
+    lineHeight: '42px',
     textAlign: 'center' as 'center',
     top: 'auto'
   }

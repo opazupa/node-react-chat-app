@@ -21,17 +21,43 @@ import { HIGHLIGHT_COLOR } from 'src/common/utils/Constants';
 import { IUserStore } from 'src/stores/UserStore';
 import styled from 'styled-components';
 
+import { IUser } from '../common/models';
 import logo from '../logo.svg';
 import InfoBlock from './InfoBlock';
 
-// TODO const the highlight color #ffb7b7
+interface IDrawerContentProps {
+  user?: IUser;
+}
+const DrawerContent = (props: IDrawerContentProps) => (
+  <List component="nav">
+    <ListItem>
+      <Typography variant="h6">
+        <InfoBlock user={props.user} />
+      </Typography>
+    </ListItem>
+    <StyledNavLink exact to="/" activeClassName="drawer-active">
+      <ListItem button>
+        <ListItemIcon>
+          <HomeIcon />
+        </ListItemIcon>
+        <ListItemText primary="HOME" />
+      </ListItem>
+    </StyledNavLink>
+    <StyledNavLink to="/chatrooms" activeClassName="drawer-active">
+      <ListItem button>
+        <ListItemIcon>
+          <ChatroomIcon />
+        </ListItemIcon>
+        <ListItemText primary="CHAT ROOMS" />
+      </ListItem>
+    </StyledNavLink>
+  </List>
+);
+
 const NavLinks = styled.div`
   height: 64px;
   display: flex;
-
-  a.active {
-    border-bottom-color: ${HIGHLIGHT_COLOR};
-  }
+  margin-left: 5px;
 `;
 
 const StyledNavLink = styled(props => <NavLink {...props} />)`
@@ -39,6 +65,7 @@ const StyledNavLink = styled(props => <NavLink {...props} />)`
   display: flex;
   box-sizing: border-box;
   border-bottom: 3px solid transparent;
+  border-right: 3px solid transparent;
   transition: border 0.5s ease-in-out;
 
   button {
@@ -51,9 +78,21 @@ const StyledNavLink = styled(props => <NavLink {...props} />)`
   .button-icon {
     margin-left: 5px;
   }
+
+  &.active {
+    border-bottom-color: ${HIGHLIGHT_COLOR};
+  }
+
+  &.drawer-active {
+    border-right-color: ${HIGHLIGHT_COLOR};
+  }
 `;
 
-const SpinningLogo = styled(props => <img {...props} />)`
+const SpinningLogo = styled(props => (
+  <span style={{ flexGrow: 1 }}>
+    <img {...props} />
+  </span>
+))`
   animation: logo-spin infinite 20s linear;
   height: 60px;
 
@@ -95,7 +134,7 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
           <SpinningLogo src={logo} alt="logo" />
           {/* Mobile Hidden */}
           <Hidden xsDown>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6">
               <InfoBlock user={userStore!.user} />
             </Typography>
             <NavLinks>
@@ -115,26 +154,12 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
           </Hidden>
           {/* Mobile visible */}
           <Hidden smUp>
-            <span style={{ flexGrow: 1 }} />
             <IconButton onClick={this.toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
           </Hidden>
           <SwipeableDrawer anchor="right" open={this.state.showDrawer} onClose={this.toggleDrawer(false)} onOpen={this.toggleDrawer(true)}>
-            <List component="nav">
-              <ListItem button>
-                <ListItemIcon>
-                  <MenuIcon />
-                </ListItemIcon>
-                <ListItemText primary="Inbox" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon>
-                  <MenuIcon />
-                </ListItemIcon>
-                <ListItemText primary="Drafts" />
-              </ListItem>
-            </List>
+            <DrawerContent user={userStore!.user} />
           </SwipeableDrawer>
         </Toolbar>
       </AppBar>
