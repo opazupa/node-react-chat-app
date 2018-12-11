@@ -1,7 +1,6 @@
 import { autorun, set, toJS } from 'mobx';
 
 export const autoSave = (store: any) => {
-  console.log(store);
   let firstRun = true;
 
   // will run on change

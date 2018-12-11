@@ -35,6 +35,8 @@ interface IAppState {
 
 const Main = styled.main`
   padding: 10px 15px;
+  margin-top: 64px;
+  flex: 1 0 auto;
 `;
 
 @(withRouter as any)
@@ -66,24 +68,22 @@ class App extends React.Component<IAppProps, IAppState> {
 
   public render() {
     const { themeStore } = this.props as IAppProps;
-    console.log(themeStore!.theme.colors);
     return (
       <MuiThemeProvider theme={createTheme(themeStore!.theme)}>
         <CssBaseline />
         <Navbar />
-        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark')}>
-          Switch theme to green
-        </Button>
-        <button onClick={() => this.register()}>Register</button>
         <Main>
           <Switch>
-            {/* TODO olli add valid protections to routes */}
             <Route exact path="/" component={Home} />
             <ProtectedUserRoute exact path="/chatrooms" component={ChatroomSelection} />
             <ProtectedUserRoute path="/chatroom/:id" component={Chatroom} />
             <Route component={NoMatch} />
           </Switch>
         </Main>
+        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark')}>
+          Switch theme to green
+        </Button>
+        <button onClick={() => this.register()}>Register</button>
         <Footer />
         {/* <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.

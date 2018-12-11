@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Raleway', 'Segoe UI';
+  height: 100%;
 
 }
 
@@ -11,4 +12,10 @@ body {
 
 ::-moz-selection {
   background: #ffb7b7;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

@@ -7,8 +7,8 @@ import styled from 'styled-components';
 const styles = {
   footer: {
     bottom: 0,
-    height: '60px',
-    lineHeight: '60px',
+    height: '30px',
+    lineHeight: '30px',
     textAlign: 'center' as 'center',
     top: 'auto'
   }
@@ -30,7 +30,7 @@ const Footer = (props: any) => {
   const { classes } = props;
 
   return (
-    <AppBar className={classes.footer} position="fixed">
+    <AppBar className={classes.footer} position="relative">
       <footer>
         <span>Coded with </span>
         <AnimatedFavoriteIcon />
