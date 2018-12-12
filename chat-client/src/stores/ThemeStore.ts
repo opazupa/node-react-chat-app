@@ -7,10 +7,11 @@ import { autoSave } from './utils/AutoSave';
 
 export interface IThemeStore {
   theme: ITheme;
-  set: (primary: Color, secondary: Color, error: Color, type: 'light' | 'dark') => void;
+  highlightColor: string;
+  set: (primary: Color, secondary: Color, error: Color, type: 'light' | 'dark', highlightColor?: Color) => void;
   reset: () => void;
 }
-export const DEFAULT_THEME = {
+const DEFAULT_THEME = {
   colors: {
     primary: grey,
     secondary: amber,
@@ -23,21 +24,28 @@ export const DEFAULT_THEME = {
   }
 } as ITheme;
 
+const DEFAULT_HIGHLIGHT_COLOR = '#ffb7b7';
+
 class ThemeStore implements IThemeStore {
   @observable public theme = DEFAULT_THEME;
+  @observable public highlightColor = DEFAULT_HIGHLIGHT_COLOR;
 
   constructor() {
     autoSave(this);
   }
 
   @action
-  public set(primary: Color, secondary: Color, error: Color, type: 'light' | 'dark') {
+  public set(primary: Color, secondary: Color, error: Color, type: 'light' | 'dark', highlightColor?: Color) {
     this.theme.colors = { primary, secondary, error, type };
+    if (highlightColor) {
+      this.highlightColor = highlightColor[50];
+    }
   }
 
   @action
   public reset() {
     this.theme = DEFAULT_THEME;
+    this.highlightColor = DEFAULT_HIGHLIGHT_COLOR;
   }
 }
 

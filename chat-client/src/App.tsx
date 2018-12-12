@@ -80,7 +80,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <Route component={NoMatch} />
           </Switch>
         </Main>
-        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark')}>
+        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark', colors.lime)}>
           Switch theme to green
         </Button>
         <button onClick={() => this.register()}>Register</button>

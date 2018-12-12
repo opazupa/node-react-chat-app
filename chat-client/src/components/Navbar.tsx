@@ -1,6 +1,7 @@
 import {
   AppBar,
   Button,
+  Divider,
   Hidden,
   IconButton,
   List,
@@ -16,17 +17,18 @@ import HomeIcon from '@material-ui/icons/HomeOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
-import { HIGHLIGHT_COLOR } from 'src/common/utils/Constants';
-import { IUserStore } from 'src/stores/UserStore';
+import { NavLink, NavLinkProps, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { IUser } from '../common/models';
 import logo from '../logo.svg';
+import { IThemeStore } from '../stores/ThemeStore';
+import { IUserStore } from '../stores/UserStore';
 import InfoBlock from './InfoBlock';
 
 interface IDrawerContentProps {
   user?: IUser;
+  highlightColor: string;
 }
 const DrawerContent = (props: IDrawerContentProps) => (
   <List component="nav">
@@ -35,7 +37,8 @@ const DrawerContent = (props: IDrawerContentProps) => (
         <InfoBlock user={props.user} />
       </Typography>
     </ListItem>
-    <StyledNavLink exact to="/" activeClassName="drawer-active">
+    <Divider />
+    <StyledNavLink exact to="/" activeClassName="drawer-active" highlightColor={props.highlightColor}>
       <ListItem button>
         <ListItemIcon>
           <HomeIcon />
@@ -43,7 +46,7 @@ const DrawerContent = (props: IDrawerContentProps) => (
         <ListItemText primary="HOME" />
       </ListItem>
     </StyledNavLink>
-    <StyledNavLink to="/chatrooms" activeClassName="drawer-active">
+    <StyledNavLink to="/chatrooms" activeClassName="drawer-active" highlightColor={props.highlightColor}>
       <ListItem button>
         <ListItemIcon>
           <ChatroomIcon />
@@ -60,7 +63,10 @@ const NavLinks = styled.div`
   margin-left: 5px;
 `;
 
-const StyledNavLink = styled(props => <NavLink {...props} />)`
+interface IStyledNavLinkProps extends NavLinkProps {
+  highlightColor: string;
+}
+const StyledNavLink = styled((props: IStyledNavLinkProps) => <NavLink {...props} />)`
   text-decoration: none;
   display: flex;
   box-sizing: border-box;
@@ -80,11 +86,11 @@ const StyledNavLink = styled(props => <NavLink {...props} />)`
   }
 
   &.active {
-    border-bottom-color: ${HIGHLIGHT_COLOR};
+    border-bottom-color: ${props => props.highlightColor};
   }
 
   &.drawer-active {
-    border-right-color: ${HIGHLIGHT_COLOR};
+    border-right-color: ${props => props.highlightColor};
   }
 `;
 
@@ -109,6 +115,7 @@ const SpinningLogo = styled(props => (
 
 interface INavBarProps {
   userStore?: IUserStore;
+  themeStore?: IThemeStore;
 }
 
 interface INavBarState {
@@ -117,6 +124,7 @@ interface INavBarState {
 
 @(withRouter as any)
 @inject('userStore')
+@inject('themeStore')
 @observer
 class NavBar extends React.Component<INavBarProps, INavBarState> {
   constructor(props, context) {
@@ -127,7 +135,7 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
   }
 
   public render() {
-    const { userStore } = this.props as INavBarProps;
+    const { userStore, themeStore } = this.props as INavBarProps;
     return (
       <AppBar position="fixed">
         <Toolbar>
@@ -138,13 +146,13 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
               <InfoBlock user={userStore!.user} />
             </Typography>
             <NavLinks>
-              <StyledNavLink exact to="/" activeClassName="active">
+              <StyledNavLink exact to="/" activeClassName="active" highlightColor={themeStore!.highlightColor}>
                 <Button size="large" color="secondary">
                   Home
                   <HomeIcon className="button-icon" />
                 </Button>
               </StyledNavLink>
-              <StyledNavLink to="/chatrooms" activeClassName="active">
+              <StyledNavLink to="/chatrooms" activeClassName="active" highlightColor={themeStore!.highlightColor}>
                 <Button size="large" color="secondary">
                   Chat rooms
                   <ChatroomIcon className="button-icon" />
@@ -159,7 +167,7 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
             </IconButton>
           </Hidden>
           <SwipeableDrawer anchor="right" open={this.state.showDrawer} onClose={this.toggleDrawer(false)} onOpen={this.toggleDrawer(true)}>
-            <DrawerContent user={userStore!.user} />
+            <DrawerContent user={userStore!.user} highlightColor={themeStore!.highlightColor} />
           </SwipeableDrawer>
         </Toolbar>
       </AppBar>
