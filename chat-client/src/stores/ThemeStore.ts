@@ -26,7 +26,7 @@ const DEFAULT_THEME = {
 
 const DEFAULT_HIGHLIGHT_COLOR = '#ffb7b7';
 
-class ThemeStore implements IThemeStore {
+export class ThemeStore implements IThemeStore {
   @observable public theme = DEFAULT_THEME;
   @observable public highlightColor = DEFAULT_HIGHLIGHT_COLOR;
 
@@ -38,7 +38,7 @@ class ThemeStore implements IThemeStore {
   public set(primary: Color, secondary: Color, error: Color, type: 'light' | 'dark', highlightColor?: Color) {
     this.theme.colors = { primary, secondary, error, type };
     if (highlightColor) {
-      this.highlightColor = highlightColor[50];
+      this.highlightColor = highlightColor[500];
     }
   }
 
@@ -48,5 +48,3 @@ class ThemeStore implements IThemeStore {
     this.highlightColor = DEFAULT_HIGHLIGHT_COLOR;
   }
 }
-
-export default new ThemeStore();

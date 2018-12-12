@@ -1,116 +1,23 @@
-import {
-  AppBar,
-  Button,
-  Divider,
-  Hidden,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  SwipeableDrawer,
-  Toolbar,
-  Typography,
-} from '@material-ui/core';
+import { AppBar, Button, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { NavLink, NavLinkProps, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { IUser } from '../common/models';
-import logo from '../logo.svg';
-import { IThemeStore } from '../stores/ThemeStore';
-import { IUserStore } from '../stores/UserStore';
+import logo from '../../logo.svg';
+import { IThemeStore, IUserStore } from '../../stores';
+import DrawerContent from './DrawerContent';
 import InfoBlock from './InfoBlock';
-
-interface IDrawerContentProps {
-  user?: IUser;
-  highlightColor: string;
-}
-const DrawerContent = (props: IDrawerContentProps) => (
-  <List component="nav">
-    <ListItem>
-      <Typography variant="h6">
-        <InfoBlock user={props.user} />
-      </Typography>
-    </ListItem>
-    <Divider />
-    <StyledNavLink exact to="/" activeClassName="drawer-active" highlightColor={props.highlightColor}>
-      <ListItem button>
-        <ListItemIcon>
-          <HomeIcon />
-        </ListItemIcon>
-        <ListItemText primary="HOME" />
-      </ListItem>
-    </StyledNavLink>
-    <StyledNavLink to="/chatrooms" activeClassName="drawer-active" highlightColor={props.highlightColor}>
-      <ListItem button>
-        <ListItemIcon>
-          <ChatroomIcon />
-        </ListItemIcon>
-        <ListItemText primary="CHAT ROOMS" />
-      </ListItem>
-    </StyledNavLink>
-  </List>
-);
+import SpinningLogo from './SpinningLogo';
+import StyledNavLink from './StyledNavLink';
 
 const NavLinks = styled.div`
   height: 64px;
   display: flex;
   margin-left: 5px;
-`;
-
-interface IStyledNavLinkProps extends NavLinkProps {
-  highlightColor: string;
-}
-const StyledNavLink = styled((props: IStyledNavLinkProps) => <NavLink {...props} />)`
-  text-decoration: none;
-  display: flex;
-  box-sizing: border-box;
-  border-bottom: 3px solid transparent;
-  border-right: 3px solid transparent;
-  transition: border 0.5s ease-in-out;
-
-  button {
-    color: black;
-    box-sizing: border-box;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -3px;
-  }
-
-  .button-icon {
-    margin-left: 5px;
-  }
-
-  &.active {
-    border-bottom-color: ${props => props.highlightColor};
-  }
-
-  &.drawer-active {
-    border-right-color: ${props => props.highlightColor};
-  }
-`;
-
-const SpinningLogo = styled(props => (
-  <span style={{ flexGrow: 1 }}>
-    <img {...props} />
-  </span>
-))`
-  animation: logo-spin infinite 20s linear;
-  height: 60px;
-
-  @keyframes logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-
-    to {
-      transform: rotate(360deg);
-    }
-  }
 `;
 
 interface INavBarProps {
@@ -135,7 +42,7 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
   }
 
   public render() {
-    const { userStore, themeStore } = this.props as INavBarProps;
+    const { userStore, themeStore } = this.props;
     return (
       <AppBar position="fixed">
         <Toolbar>

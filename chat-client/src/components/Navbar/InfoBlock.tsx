@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { IUser } from '../common/models';
-import Emoji from '../common/utils/Emoji';
+import { IUser } from '../../common/models';
+import { Emoji } from '../../common/utils';
 
 interface IInfoBlockProps {
   user?: IUser;

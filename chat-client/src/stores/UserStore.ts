@@ -9,8 +9,8 @@ export interface IUserStore {
   unRegister: () => void;
 }
 
-class UserStore implements IUserStore {
-  @observable public user? = {} as IUser;
+export class UserStore implements IUserStore {
+  @observable public user?: IUser = undefined;
 
   constructor() {
     autoSave(this);
@@ -23,8 +23,6 @@ class UserStore implements IUserStore {
 
   @action
   public unRegister() {
-    this.user = {} as IUser;
+    this.user = undefined;
   }
 }
-
-export default new UserStore();

@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import * as React from 'react';
 
-export const Home = () => (
+const Home = () => (
   <Grid container>
     <Grid item md={6} xs={12}>
       Half on big whole on small
@@ -47,3 +47,5 @@ export const Home = () => (
     </Grid>
   </Grid>
 );
+
+export default Home;

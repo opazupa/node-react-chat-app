@@ -1,5 +1,5 @@
-import ThemeStore, { IThemeStore } from './ThemeStore';
-import UserStore, { IUserStore } from './UserStore';
+import { IThemeStore, ThemeStore } from './ThemeStore';
+import { IUserStore, UserStore } from './UserStore';
 
 export interface IRootStore {
   userStore: IUserStore;
@@ -11,8 +11,8 @@ class RootStore implements IRootStore {
   public themeStore: IThemeStore;
 
   constructor() {
-    this.userStore = UserStore;
-    this.themeStore = ThemeStore;
+    this.userStore = new UserStore();
+    this.themeStore = new ThemeStore();
   }
 }
 

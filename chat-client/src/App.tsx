@@ -6,17 +6,12 @@ import * as React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ISocket, Socket } from './common';
 import { createTheme, IChat, IChatroom, IUser } from './common/models';
-import { NoMatch } from './common/utils/NoMatch';
-import ProtectedUserRoute from './common/utils/ProtectedUserRoute';
-import Footer from './components/Footer';
-import Navbar from './components/Navbar';
-import { IThemeStore } from './stores/ThemeStore';
-import { IUserStore } from './stores/UserStore';
-import { Chatroom } from './views/Chatroom';
-import { ChatroomSelection } from './views/ChatroomSelection';
-import { Home } from './views/Home';
+import { ISocket, Socket } from './common/socket';
+import { NoMatch, ProtectedUserRoute } from './common/utils';
+import { Footer, Navbar } from './components';
+import { IThemeStore, IUserStore } from './stores';
+import { Chatroom, ChatroomSelection, Home } from './views';
 
 interface IAppProps {
   themeStore?: IThemeStore;
@@ -67,7 +62,7 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   public render() {
-    const { themeStore } = this.props as IAppProps;
+    const { themeStore } = this.props;
     return (
       <MuiThemeProvider theme={createTheme(themeStore!.theme)}>
         <CssBaseline />

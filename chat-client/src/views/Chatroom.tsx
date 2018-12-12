@@ -1,3 +1,5 @@
 import * as React from 'react';
 
-export const Chatroom = () => <div>Chatroom view works!</div>;
+const Chatroom = () => <div>Chatroom view works!</div>;
+
+export default Chatroom;
