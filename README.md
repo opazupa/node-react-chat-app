@@ -16,6 +16,6 @@ Node + React websocket based live chat app
 - Server in **server** folder
 - Client in **chat-client** folder
 
-## Run with docker
+## Run with docker :cake:
 
-    Here will come instruction to whip :cake: it with docker!
+    Here will come instruction to whip it with docker!
