@@ -1,5 +1,6 @@
 import { AppBar, Button, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
+import ThemeIcon from '@material-ui/icons/ColorLensOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import { inject, observer } from 'mobx-react';
@@ -63,6 +64,11 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
                 <Button size="large" color="secondary">
                   Chat rooms
                   <ChatroomIcon className="button-icon" />
+                </Button>
+              </StyledNavLink>
+              <StyledNavLink to="/theme" activeClassName="active" highlightColor={themeStore!.highlightColor}>
+                <Button color="secondary">
+                  <ThemeIcon className="button-icon" />
                 </Button>
               </StyledNavLink>
             </NavLinks>

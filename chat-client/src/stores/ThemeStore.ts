@@ -8,6 +8,11 @@ import { autoSave } from './utils/AutoSave';
 export interface IThemeStore {
   theme: ITheme;
   highlightColor: string;
+  setPrimaryColor: (primary: Color) => void;
+  setSecondaryColor: (secondary: Color) => void;
+  setErrorColor: (error: Color) => void;
+  setType: (type: 'light' | 'dark') => void;
+  setHighlightColor: (highlightColor: Color) => void;
   set: (primary: Color, secondary: Color, error: Color, type: 'light' | 'dark', highlightColor?: Color) => void;
   reset: () => void;
 }
@@ -32,6 +37,30 @@ export class ThemeStore implements IThemeStore {
 
   constructor() {
     autoSave(this);
+  }
+
+  @action
+  public setPrimaryColor(primary: Color) {
+    this.theme.colors.primary = primary;
+  }
+
+  @action
+  public setSecondaryColor(secondary: Color) {
+    this.theme.colors.secondary = secondary;
+  }
+
+  @action
+  public setErrorColor(error: Color) {
+    this.theme.colors.error = error;
+  }
+
+  @action
+  public setType(type: 'light' | 'dark') {
+    this.theme.colors.type = type;
+  }
+  @action
+  public setHighlightColor(highlightColor: Color) {
+    this.highlightColor = highlightColor[500];
   }
 
   @action

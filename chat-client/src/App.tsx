@@ -1,6 +1,4 @@
-import { Button, CssBaseline, MuiThemeProvider } from '@material-ui/core';
-import { green, grey, red } from '@material-ui/core/colors';
-import * as colors from '@material-ui/core/colors';
+import { CssBaseline, MuiThemeProvider, Paper } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
@@ -11,7 +9,7 @@ import { ISocket, Socket } from './common/socket';
 import { NoMatch, ProtectedUserRoute } from './common/utils';
 import { Footer, Navbar } from './components';
 import { IThemeStore, IUserStore } from './stores';
-import { Chatroom, ChatroomSelection, Home } from './views';
+import { Chatroom, ChatroomSelection, Home, ThemePicker } from './views';
 
 interface IAppProps {
   themeStore?: IThemeStore;
@@ -28,9 +26,10 @@ interface IAppState {
   chathistory: IChat[];
 }
 
-const Main = styled.main`
+const Main = styled(props => <Paper {...props} />)`
   padding: 10px 15px;
   margin-top: 64px;
+  text-align: center;
   flex: 1 0 auto;
 `;
 
@@ -53,8 +52,6 @@ class App extends React.Component<IAppProps, IAppState> {
       user: undefined
     };
 
-    console.log(colors);
-
     this.state.client.registerHandler((chat: IChat) => {
       console.log(chat);
       this.setState({ chathistory: this.state.chathistory.concat(chat) });
@@ -70,14 +67,12 @@ class App extends React.Component<IAppProps, IAppState> {
         <Main>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/theme" component={ThemePicker} />
             <ProtectedUserRoute exact path="/chatrooms" component={ChatroomSelection} />
             <ProtectedUserRoute path="/chatroom/:id" component={Chatroom} />
             <Route component={NoMatch} />
           </Switch>
         </Main>
-        <Button variant="outlined" onClick={() => themeStore!.set(grey, green, red, 'dark', colors.lime)}>
-          Switch theme to green
-        </Button>
         <button onClick={() => this.register()}>Register</button>
         <Footer />
         {/* <p className="App-intro">

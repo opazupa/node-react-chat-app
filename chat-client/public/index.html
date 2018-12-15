@@ -43,13 +43,15 @@
       .app-loading-spinner {
         position: absolute;
         display: flex;
+        flex-direction: column;
+
         top: 50%;
         left: 50%;
         -ms-transform: translate(-50%, -50%); /* IE 9 */
         -webkit-transform: translate(-50%, -50%); /* Safari */
         transform: translate(-50%, -50%); /* Standard syntax */
-        width: 80px;
-        height: 80px;
+        /* width: 80px;
+        height: 80px; */
         align-items: center;
         justify-content: center;
       }
@@ -75,6 +77,10 @@
         -webkit-animation-delay: -0.16s;
         animation-delay: -0.16s;
       }
+      .app-loading-spinner code {
+        margin-top: 5px;
+        font-size: 1.5rem;
+      }
     </style>
   </head>
 
@@ -85,6 +91,7 @@
         <div class="bounce1"></div>
         <div class="bounce2"></div>
         <div class="bounce3"></div>
+        <code>Olli's chat</code>
       </div>
     </div>
   </body>

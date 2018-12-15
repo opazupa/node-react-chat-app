@@ -5,7 +5,7 @@ import styled from 'styled-components';
 interface IStyledNavLinkProps extends NavLinkProps {
   highlightColor: string;
 }
-const StyledNavLink = styled((props: IStyledNavLinkProps) => <NavLink {...props} />)`
+const StyledNavLink = styled(({ highlightColor, ...props }: IStyledNavLinkProps) => <NavLink {...props} />)`
   text-decoration: none;
   display: flex;
   box-sizing: border-box;

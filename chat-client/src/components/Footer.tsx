@@ -9,7 +9,8 @@ const styles = {
     height: '42px',
     lineHeight: '42px',
     textAlign: 'center' as 'center',
-    top: 'auto'
+    top: 'auto',
+    position: 'sticky' as 'sticky'
   }
 };
 
