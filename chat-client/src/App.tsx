@@ -27,7 +27,7 @@ interface IAppState {
 }
 
 const Main = styled(props => <Paper {...props} />)`
-  padding: 10px 15px;
+  padding: 15px;
   margin-top: 64px;
   text-align: center;
   flex: 1 0 auto;
@@ -66,14 +66,13 @@ class App extends React.Component<IAppProps, IAppState> {
         <Navbar />
         <Main>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" render={() => <Home onRegister={(name: string) => this.register(name)} />} />
             <Route exact path="/theme" component={ThemePicker} />
             <ProtectedUserRoute exact path="/chatrooms" component={ChatroomSelection} />
             <ProtectedUserRoute path="/chatroom/:id" component={Chatroom} />
             <Route component={NoMatch} />
           </Switch>
         </Main>
-        <button onClick={() => this.register()}>Register</button>
         <Footer />
         {/* <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.
@@ -112,18 +111,14 @@ class App extends React.Component<IAppProps, IAppState> {
   //   });
   // }
 
-  private register() {
-    const onRegisterResponse = (user?: IUser) => {
-      console.log(user);
-      this.setState({ isRegisterInProcess: false });
-      this.props.userStore!.register(user!);
-    };
-    this.setState({ isRegisterInProcess: true });
-    this.state.client.register(this.state.name, (err: any, user: IUser) => {
+  private register(name: string) {
+    this.state.client.register(name, (err: any, user: IUser) => {
       if (err) {
         this.props.userStore!.unRegister();
+      } else {
+        this.props.userStore!.register(user!);
+        // this.props.history;
       }
-      return onRegisterResponse(user);
     });
   }
 }

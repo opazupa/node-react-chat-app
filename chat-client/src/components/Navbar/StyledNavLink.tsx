@@ -17,6 +17,7 @@ const StyledNavLink = styled(({ highlightColor, ...props }: IStyledNavLinkProps)
     box-sizing: border-box;
     border-bottom: 3px solid transparent;
     margin-bottom: -3px;
+    font-size: 1.25rem;
 
     p {
       display: flex;

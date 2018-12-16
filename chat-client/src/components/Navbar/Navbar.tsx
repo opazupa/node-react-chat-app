@@ -18,7 +18,7 @@ import StyledNavLink from './StyledNavLink';
 const NavLinks = styled.div`
   height: 64px;
   display: flex;
-  margin-left: 5px;
+  margin-left: 10px;
 `;
 
 interface INavBarProps {

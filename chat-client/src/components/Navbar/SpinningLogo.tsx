@@ -9,6 +9,10 @@ const SpinningLogo = styled(props => (
   animation: logo-spin infinite 20s linear;
   height: 60px;
 
+  &:hover {
+    animation-direction: alternate;
+  }
+
   @keyframes logo-spin {
     from {
       transform: rotate(0deg);
