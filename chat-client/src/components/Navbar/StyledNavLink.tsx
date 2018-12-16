@@ -14,10 +14,14 @@ const StyledNavLink = styled(({ highlightColor, ...props }: IStyledNavLinkProps)
   transition: border 0.5s ease-in-out;
 
   button {
-    color: black;
     box-sizing: border-box;
     border-bottom: 3px solid transparent;
     margin-bottom: -3px;
+
+    p {
+      display: flex;
+      align-items: flex-end;
+    }
   }
 
   .button-icon {

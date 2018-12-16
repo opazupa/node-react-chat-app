@@ -56,19 +56,25 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
             <NavLinks>
               <StyledNavLink exact to="/" activeClassName="active" highlightColor={themeStore!.highlightColor}>
                 <Button size="large" color="secondary">
-                  Home
-                  <HomeIcon className="button-icon" />
+                  <Typography>
+                    Home
+                    <HomeIcon className="button-icon" />
+                  </Typography>
                 </Button>
               </StyledNavLink>
               <StyledNavLink to="/chatrooms" activeClassName="active" highlightColor={themeStore!.highlightColor}>
                 <Button size="large" color="secondary">
-                  Chat rooms
-                  <ChatroomIcon className="button-icon" />
+                  <Typography>
+                    Chat rooms
+                    <ChatroomIcon className="button-icon" />
+                  </Typography>
                 </Button>
               </StyledNavLink>
               <StyledNavLink to="/theme" activeClassName="active" highlightColor={themeStore!.highlightColor}>
                 <Button color="secondary">
-                  <ThemeIcon className="button-icon" />
+                  <Typography>
+                    <ThemeIcon className="button-icon" />
+                  </Typography>
                 </Button>
               </StyledNavLink>
             </NavLinks>
