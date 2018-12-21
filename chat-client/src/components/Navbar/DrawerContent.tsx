@@ -1,22 +1,22 @@
+import { IUserStore } from '@app/stores';
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import ThemeIcon from '@material-ui/icons/ColorLensOutlined';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
 import * as React from 'react';
 
-import { IUser } from '../../common/models';
 import InfoBlock from './InfoBlock';
 import StyledNavLink from './StyledNavLink';
 
 interface IDrawerContentProps {
-  user?: IUser;
+  userStore?: IUserStore;
   highlightColor: string;
 }
 const DrawerContent = (props: IDrawerContentProps) => (
   <List component="nav">
     <ListItem>
       <Typography variant="h6">
-        <InfoBlock user={props.user} />
+        <InfoBlock user={props.userStore!.user} />
       </Typography>
     </ListItem>
     <Divider />

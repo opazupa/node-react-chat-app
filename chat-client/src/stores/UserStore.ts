@@ -1,6 +1,6 @@
+import { IUser } from '@app/common/models';
 import { action, computed, observable } from 'mobx';
 
-import { IUser } from '../common/models';
 import { autoSave } from './utils/AutoSave';
 
 export interface IUserStore {

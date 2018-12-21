@@ -1,8 +1,8 @@
+import { ITheme } from '@app/common/models/ITheme';
 import { Color } from '@material-ui/core';
 import { amber, grey, red } from '@material-ui/core/colors';
 import { action, observable } from 'mobx';
 
-import { ITheme } from '../common/models/ITheme';
 import { autoSave } from './utils/AutoSave';
 
 export interface IThemeStore {

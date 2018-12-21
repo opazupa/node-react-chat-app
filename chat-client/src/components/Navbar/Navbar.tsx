@@ -1,3 +1,4 @@
+import logo from '@app/logos/logo.svg';
 import { AppBar, Button, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import ThemeIcon from '@material-ui/icons/ColorLensOutlined';
@@ -8,7 +9,6 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import logo from '../../logo.svg';
 import { IThemeStore, IUserStore } from '../../stores';
 import DrawerContent from './DrawerContent';
 import InfoBlock from './InfoBlock';
@@ -86,7 +86,7 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
             </IconButton>
           </Hidden>
           <SwipeableDrawer anchor="right" open={this.state.showDrawer} onClose={this.toggleDrawer(false)} onOpen={this.toggleDrawer(true)}>
-            <DrawerContent user={userStore!.user} highlightColor={themeStore!.highlightColor} />
+            <DrawerContent userStore={userStore} highlightColor={themeStore!.highlightColor} />
           </SwipeableDrawer>
         </Toolbar>
       </AppBar>

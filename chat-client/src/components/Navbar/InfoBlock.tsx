@@ -1,7 +1,6 @@
+import { IUser } from '@app/common/models';
+import { Emoji } from '@app/common/utils';
 import * as React from 'react';
-
-import { IUser } from '../../common/models';
-import { Emoji } from '../../common/utils';
 
 interface IInfoBlockProps {
   user?: IUser;

@@ -1,20 +1,25 @@
+import { IUser } from '@app/common/models';
+import { Emoji } from '@app/common/utils';
+import { Logo } from '@app/components';
+import { ISocketClient, IUserStore } from '@app/stores';
 import { Fab, Grid, TextField, Typography, Zoom } from '@material-ui/core';
 import UserIcon from '@material-ui/icons/DirectionsRunOutlined';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-
-import { Emoji } from '../common/utils';
-import { IUserStore } from '../stores';
+import { withRouter } from 'react-router-dom';
 
 interface IHomeProps {
   userStore?: IUserStore;
-  onRegister: (name: string) => any;
+  socket?: ISocketClient;
+  history?: any;
 }
 interface IHomeState {
   userName: string;
 }
 
+@(withRouter as any)
 @inject('userStore')
+@inject('socket')
 @observer
 class Home extends React.Component<IHomeProps, IHomeState> {
   constructor(props: IHomeProps, context) {
@@ -31,15 +36,21 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     return (
       <Grid container spacing={16}>
         <Grid item xs={12}>
-          <Typography variant="h4">Welcome to Olli's chat</Typography>
-          <Typography>
-            Select username and fire up some chats <Emoji symbol="🔥" />
-          </Typography>
+          <Grid container justify="center" spacing={8} direction="column">
+            <Grid item>
+              <Logo />
+            </Grid>
+            <Grid item>
+              <Typography color="textSecondary">
+                Select username and fire up some chats <Emoji symbol="💪" />
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <TextField
             id="userName"
-            // className={}
+            style={{ fontSize: '25px' }}
             variant="outlined"
             type="text"
             label="Username"
@@ -49,7 +60,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         </Grid>
         <Grid item xs={12}>
           <Zoom in={this.state.userName ? true : false} style={{ transitionDelay: '200ms' }}>
-            <Fab variant="extended" size="large" color="secondary" aria-label="Submit" onClick={() => this.registerUser()}>
+            <Fab variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
               <UserIcon style={{ marginRight: '5px' }} />
               {userStore!.registered ? 'Change username' : `Let's go!`}
             </Fab>
@@ -64,9 +75,20 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     return;
   };
 
-  private registerUser() {
-    this.props.onRegister(this.state.userName);
-  }
+  private registerUser = () => event => {
+    this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
+      if (err) {
+        console.log('Registration failed: ' + err);
+      } else {
+        if (!this.props.userStore!.registered) {
+          this.props.userStore!.register(user!);
+          this.props.history.push('/chatrooms');
+          return;
+        }
+        this.props.userStore!.register(user!);
+      }
+    });
+  };
 }
 
 export default Home;
