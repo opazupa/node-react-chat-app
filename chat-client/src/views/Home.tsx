@@ -1,7 +1,7 @@
 import { IUser } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
 import { Logo } from '@app/components';
-import { ISocketClient, IUserStore } from '@app/stores';
+import { INotifyStore, ISocketClient, IUserStore } from '@app/stores';
 import { Fab, Grid, TextField, Typography, Zoom } from '@material-ui/core';
 import UserIcon from '@material-ui/icons/DirectionsRunOutlined';
 import { inject, observer } from 'mobx-react';
@@ -10,6 +10,7 @@ import { withRouter } from 'react-router-dom';
 
 interface IHomeProps {
   userStore?: IUserStore;
+  notifyStore?: INotifyStore;
   socket?: ISocketClient;
   history?: any;
 }
@@ -19,6 +20,7 @@ interface IHomeState {
 
 @(withRouter as any)
 @inject('userStore')
+@inject('notifyStore')
 @inject('socket')
 @observer
 class Home extends React.Component<IHomeProps, IHomeState> {
@@ -50,7 +52,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         <Grid item xs={12}>
           <TextField
             id="userName"
-            style={{ fontSize: '25px' }}
             variant="outlined"
             type="text"
             label="Username"
@@ -60,7 +61,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         </Grid>
         <Grid item xs={12}>
           <Zoom in={this.state.userName ? true : false} style={{ transitionDelay: '200ms' }}>
-            <Fab variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
+            <Fab type="submit" variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
               <UserIcon style={{ marginRight: '5px' }} />
               {userStore!.registered ? 'Change username' : `Let's go!`}
             </Fab>
@@ -78,13 +79,14 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   private registerUser = () => event => {
     this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
       if (err) {
-        console.log('Registration failed: ' + err);
+        this.props.notifyStore!.showError(err);
       } else {
         if (!this.props.userStore!.registered) {
           this.props.userStore!.register(user!);
           this.props.history.push('/chatrooms');
           return;
         }
+        this.props.notifyStore!.showMessage(`Username changed`);
         this.props.userStore!.register(user!);
       }
     });

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { createTheme } from './common/models';
 import { NoMatch, ProtectedUserRoute } from './common/utils';
-import { Footer, Navbar } from './components';
+import { Footer, Navbar, NotificationHandler } from './components';
 import { IThemeStore } from './stores';
 import { Chatroom, ChatroomSelection, Home, ThemePicker } from './views';
 
@@ -49,6 +49,7 @@ class App extends React.Component<IAppProps, {}> {
             <Route component={NoMatch} />
           </Switch>
         </Main>
+        <NotificationHandler />
         <Footer />
         {/* <p className="App-intro">
           To get started, edit <code>src/App.tsx</code> and save to reload.

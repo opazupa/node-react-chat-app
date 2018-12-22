@@ -39,9 +39,14 @@ const Footer = (props: any) => {
   return (
     <AppBar className={classes.footer} position="relative">
       <footer className={classes.flex}>
-        <Typography variant="inherit">Coded with </Typography>
+        <Typography variant="inherit" color="textPrimary">
+          Coded with{' '}
+        </Typography>
         <AnimatedFavoriteIcon />
-        <Typography variant="inherit"> Olli &copy;2018</Typography>
+        <Typography variant="inherit" color="textPrimary">
+          {' '}
+          Olli &copy;2018
+        </Typography>
       </footer>
     </AppBar>
   );

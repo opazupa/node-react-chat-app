@@ -1,4 +1,5 @@
 import logo from '@app/logos/logo.svg';
+import { IThemeStore, IUserStore } from '@app/stores';
 import { AppBar, Button, Hidden, IconButton, SwipeableDrawer, Toolbar, Typography } from '@material-ui/core';
 import ChatroomIcon from '@material-ui/icons/BallotOutlined';
 import ThemeIcon from '@material-ui/icons/ColorLensOutlined';
@@ -9,7 +10,6 @@ import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { IThemeStore, IUserStore } from '../../stores';
 import DrawerContent from './DrawerContent';
 import InfoBlock from './InfoBlock';
 import SpinningLogo from './SpinningLogo';
