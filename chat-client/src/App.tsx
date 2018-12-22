@@ -15,10 +15,12 @@ interface IAppProps {
 }
 
 const Main = styled(props => <Paper {...props} />)`
-  padding: 15px;
+  padding: 30px 15px 15px 15px;
   margin-top: 64px;
   text-align: center;
   flex: 1 0 auto;
+  display: flex;
+  align-items: flex-start;
 `;
 
 @(withRouter as any)

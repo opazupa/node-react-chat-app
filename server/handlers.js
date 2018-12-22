@@ -153,7 +153,7 @@ export default (client, clientManager, chatroomManager) => {
    * @param {*} callback
    * @returns
    */
-  const handleGetChatrooms = callback => {
+  const handleGetChatrooms = (_, callback) => {
     return callback(null, chatroomManager.serializeChatrooms());
   };
 

@@ -1,10 +1,5 @@
+import { INotifyMessage } from '@app/common/models';
 import { action, computed, observable } from 'mobx';
-
-export interface INotifyMessage {
-  message: string;
-  type: 'success' | 'error';
-  show: boolean;
-}
 
 export interface INotifyStore {
   messages: INotifyMessage[];

@@ -4,6 +4,7 @@ import { Logo } from '@app/components';
 import { INotifyStore, ISocketClient, IUserStore } from '@app/stores';
 import { Fab, Grid, TextField, Typography, Zoom } from '@material-ui/core';
 import UserIcon from '@material-ui/icons/DirectionsRunOutlined';
+import { History } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +13,7 @@ interface IHomeProps {
   userStore?: IUserStore;
   notifyStore?: INotifyStore;
   socket?: ISocketClient;
-  history?: any;
+  history?: History;
 }
 interface IHomeState {
   userName: string;
@@ -83,7 +84,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       } else {
         if (!this.props.userStore!.registered) {
           this.props.userStore!.register(user!);
-          this.props.history.push('/chatrooms');
+          this.props.history!.push('/chatrooms');
           return;
         }
         this.props.notifyStore!.showMessage(`Username changed`);

@@ -1,10 +1,9 @@
 import Chatroom from '../models/Chatroom';
 
 // Todo get from mongo DB!
-const CHATROOMS = [{ name: 'Room1', theme: null }, { name: 'Room2', theme: null }];
+const CHATROOMS = [{ name: 'Sports', symbol: '⚽' }, { name: 'Food', symbol: '🍔' }, { name: 'Wine', symbol: '🍷' }];
 
 /**
- *
  * ChatroomManager to handle chatroom stuff.
  *
  * @export

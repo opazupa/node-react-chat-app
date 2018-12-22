@@ -8,7 +8,7 @@
 export default class Chatroom {
   constructor(room) {
     this.name = room.name;
-    this.theme = room.theme;
+    this.symbol = room.symbol;
 
     this.members = new Map();
     // TODO persist history to mongodb
@@ -75,8 +75,8 @@ export default class Chatroom {
   serialize() {
     return {
       name: this.name,
-      theme: this.theme,
-      members: members.size
+      symbol: this.symbol,
+      members: this.members.size
     };
   }
 }
