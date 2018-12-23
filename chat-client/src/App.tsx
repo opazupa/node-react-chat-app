@@ -47,7 +47,7 @@ class App extends React.Component<IAppProps, {}> {
             <Route exact path="/" render={() => <Home />} />
             <Route exact path="/theme" component={ThemePicker} />
             <ProtectedUserRoute exact path="/chatrooms" component={ChatroomSelection} />
-            <ProtectedUserRoute path="/chatroom/:id" component={Chatroom} />
+            <ProtectedUserRoute path="/chatroom/:name" component={Chatroom} />
             <Route component={NoMatch} />
           </Switch>
         </Main>

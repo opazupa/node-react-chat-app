@@ -1,12 +1,12 @@
 import { IChatroom } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
-import { Card, CardContent, Typography } from '@material-ui/core';
+import { ButtonBase, Card, CardContent, Typography } from '@material-ui/core';
 import * as React from 'react';
+import { Link, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IChatroomTileProps {
   chatroom: IChatroom;
-  onClick: any;
 }
 
 const TileContent = styled(props => <CardContent {...props} />)`
@@ -38,26 +38,32 @@ const TileCard = styled(props => <Card {...props} />)`
   }
 `;
 
+const TileLink = styled(({ children, ...props }: LinkProps) => <Link {...props}>{children}</Link>)`
+  text-decoration: none;
+`;
+
 class ChatroomTile extends React.Component<IChatroomTileProps, {}> {
   public render() {
-    const { chatroom, onClick } = this.props;
+    const { chatroom } = this.props;
 
     return (
-      <div onClick={onClick}>
-        <TileCard>
-          <TileContent>
-            <Typography component="h5" variant="h5">
-              {chatroom.name}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              Members: {chatroom.members}
-            </Typography>
-          </TileContent>
-          <div className="emoji-content">
-            <Emoji symbol={chatroom.symbol} />
-          </div>
-        </TileCard>
-      </div>
+      <ButtonBase focusRipple>
+        <TileLink to={`chatroom/${chatroom.name}`}>
+          <TileCard>
+            <TileContent>
+              <Typography component="h5" variant="h5">
+                {chatroom.name}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                Members: {chatroom.members}
+              </Typography>
+            </TileContent>
+            <div className="emoji-content">
+              <Emoji symbol={chatroom.symbol} />
+            </div>
+          </TileCard>
+        </TileLink>
+      </ButtonBase>
     );
   }
 }

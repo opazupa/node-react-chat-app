@@ -1,24 +1,22 @@
 import { IChatroom } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
 import { ChatroomTile, Loading } from '@app/components';
-import { ISocketClient } from '@app/stores';
+import { IChatStore, ISocketClient } from '@app/stores';
 import { Grid, Typography } from '@material-ui/core';
-import { History } from 'history';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { withRouter } from 'react-router-dom';
 
 interface IChatroomSelectionProps {
   socket?: ISocketClient;
-  history?: History;
+  chatStore?: IChatStore;
 }
 interface IChatroomSelectionState {
   chatrooms: IChatroom[];
   isLoading: boolean;
 }
 
-@(withRouter as any)
 @inject('socket')
+@inject('chatStore')
 @observer
 class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatroomSelectionState> {
   constructor(props: IChatroomSelectionProps, context) {
@@ -29,7 +27,7 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
       chatrooms: []
     };
 
-    // Delay to just for showing shine loading component
+    // Delay just for showing shine loading component
     setTimeout(() => this.getChatrooms(), 1500);
   }
 
@@ -52,31 +50,25 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
             Join a chatroom to fire up some chats <Emoji symbol="💪" />
           </Typography>
         </Grid>
-        <Grid container spacing={8} justify="center">
-          {this.createSortedChatroomTiles()}
+        <Grid container spacing={16} justify="center">
+          {this.sortedChatrooms().map((room, i) => (
+            <Grid item sm="auto" xs={12} key={i}>
+              <ChatroomTile chatroom={room} />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     );
   }
 
-  private createSortedChatroomTiles = () => {
-    return this.state.chatrooms
-      .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
-      .map((room, i) => (
-        <Grid item sm="auto" xs={12} key={i}>
-          <ChatroomTile chatroom={room} onClick={() => this.handleTileClick(room)} />
-        </Grid>
-      ));
+  private sortedChatrooms = (): IChatroom[] => {
+    return this.state.chatrooms.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
   };
 
   private getChatrooms = (): void => {
     this.props.socket!.client.getChatrooms((err: any, chatrooms: IChatroom[]) => {
       this.setState({ isLoading: false, chatrooms: chatrooms || [] });
     });
-  };
-
-  private handleTileClick = (room: IChatroom) => {
-    this.props.history!.push(`/chatroom/${room.name}`);
   };
 }
 
