@@ -17,10 +17,9 @@ interface IAppProps {
   socket?: ISocketClient;
 }
 
-const Main = styled(props => <Paper {...props} />)`
-  padding: 30px 15px 15px 15px;
+const Main = styled(props => <Paper elevation={0} square {...props} />)`
+  padding: 10px 15px 0 15px;
   margin-top: 64px;
-  text-align: center;
   flex: 1 0 auto;
   display: flex;
   align-items: flex-start;
@@ -64,7 +63,7 @@ class App extends React.Component<IAppProps, {}> {
 
   private handleClientReconnect = (): void => {
     if (this.props.userStore!.registered) {
-      // Re register here when refreshed if there is usee data in state!
+      // Re register here when refreshed if there is user data in state!
       this.props.socket!.client.register(this.props.userStore!.user!.userName, (err: any, user: IUser) => {
         if (err) {
           this.props.notifyStore!.showError(err);

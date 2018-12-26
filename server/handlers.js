@@ -28,7 +28,7 @@ const makeHandleEvent = (client, clientManager, chatroomManager) => {
    * @returns
    */
   const ensureUser = clientId => {
-    return ensureExists(() => clientManager.getUserByClientId(clientId), 'Add nickname to chat');
+    return ensureExists(() => clientManager.getUserByClientId(clientId), 'Register username to chat.');
   };
 
   /**
@@ -87,7 +87,7 @@ export default (client, clientManager, chatroomManager) => {
    * @returns
    */
   const handleRegister = (userName, callback) => {
-    if (!clientManager.isUserAvailable(userName)) return callback(`Nickname ${userName} not available`);
+    if (!clientManager.isUserAvailable(userName)) return callback(`Username ${userName} not available`);
 
     clientManager.registerClient(client, userName);
 
@@ -153,8 +153,9 @@ export default (client, clientManager, chatroomManager) => {
    * @param {*} callback
    * @returns
    */
-  const handleGetChatrooms = (_, callback) => {
-    return callback(null, chatroomManager.serializeChatrooms());
+  const handleGetChatrooms = ({ chatroomNameFilter }, callback) => {
+    const chatrooms = chatroomManager.serializeChatrooms().filter(c => (chatroomNameFilter ? c.name === chatroomNameFilter : true));
+    return callback(null, chatrooms);
   };
 
   /**

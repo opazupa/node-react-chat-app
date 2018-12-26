@@ -14,6 +14,7 @@ export interface ISocket {
   leave: (chatroomName: string, cb: any) => void;
   message: (chatroomName: string, msg: string, cb: any) => void;
   getChatrooms: (cb: any) => void;
+  getChatroomByName: (chatroomName: string, cb: any) => void;
 }
 
 /**
@@ -105,6 +106,16 @@ export class Socket implements ISocket {
    * @memberof Socket
    */
   public getChatrooms(cb: any) {
-    this.socket.emit('chatrooms', null, cb);
+    this.socket.emit('chatrooms', {}, cb);
+  }
+
+  /**
+   * Get chatroom by name.
+   *
+   * @param {*} cb
+   * @memberof Socket
+   */
+  public getChatroomByName(chatroomName: string, cb: any) {
+    this.socket.emit('chatrooms', { chatroomNameFilter: chatroomName }, cb);
   }
 }

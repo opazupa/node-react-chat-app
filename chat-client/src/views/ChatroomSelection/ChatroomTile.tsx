@@ -22,10 +22,8 @@ const TileCard = styled(props => <Card {...props} />)`
   cursor: pointer;
 
   :hover {
-    transform: scale(1.05);
-
     .emoji-content {
-      transform: rotate(37deg);
+      transform: scale(1.15) rotate(37deg);
     }
   }
 

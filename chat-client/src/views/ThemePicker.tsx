@@ -29,7 +29,7 @@ class ThemePicker extends React.Component<IThemePickerProps, {}> {
     const { themeStore } = this.props;
 
     return (
-      <Grid container spacing={8} wrap="wrap">
+      <Grid container spacing={8} direction="column" alignItems="center">
         <Grid item xs={12}>
           <Typography variant="h4" style={{ marginBottom: '10px' }}>
             Customize

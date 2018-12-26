@@ -1,10 +1,12 @@
 import { IChatroom } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
-import { ChatroomTile, Loading } from '@app/components';
+import { Loading } from '@app/components';
 import { ISocketClient } from '@app/stores';
 import { Grid, Typography } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+
+import ChatroomTile from './ChatroomTile';
 
 interface IChatroomSelectionProps {
   socket?: ISocketClient;
@@ -33,8 +35,8 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
     const {} = this.props;
     if (this.state.isLoading) {
       return (
-        <Grid container style={{ alignSelf: 'center' }}>
-          <Grid item xs={12}>
+        <Grid container style={{ alignSelf: 'center' }} alignItems="center">
+          <Grid container xs={12} justify="center">
             <Loading text="Loading chatrooms..." />
           </Grid>
         </Grid>
@@ -42,7 +44,7 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
     }
 
     return (
-      <Grid container spacing={8} direction="column">
+      <Grid container spacing={8} direction="column" alignItems="center">
         <Grid item>
           <Typography variant="h4" color="textPrimary" gutterBottom>
             Join a chatroom to fire up some chats <Emoji symbol="💪" />

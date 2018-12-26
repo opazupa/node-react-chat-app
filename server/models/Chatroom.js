@@ -43,7 +43,7 @@ export default class Chatroom {
    */
   getChatHistory() {
     // Return max 1000 chats
-    return this.chatHistory.slice(0, 1000);
+    return this.chatHistory.filter(c => c.message).slice(0, 1000);
   }
 
   /**
@@ -73,7 +73,6 @@ export default class Chatroom {
    * @returns
    */
   serialize() {
-    console.table(this.members.keys());
     return {
       name: this.name,
       symbol: this.symbol,

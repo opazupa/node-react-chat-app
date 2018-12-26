@@ -36,7 +36,7 @@ class NotificationHandler extends React.Component<INotifyProps, {}> {
         onClose={notifyStore!.hideCurrent}
         ContentProps={{
           'aria-describedby': 'message-id',
-          style: this.getNotifyStyles(current.type)
+          style: this.getNotifyStyle(current.type)
         }}
         message={<span id="message-id">{current.message}</span>}
         action={[
@@ -48,7 +48,7 @@ class NotificationHandler extends React.Component<INotifyProps, {}> {
     );
   }
 
-  private getNotifyStyles = (type: 'success' | 'error') => {
+  private getNotifyStyle = (type: 'success' | 'error') => {
     return {
       success: { borderLeft: `2.5px solid ${this.props.themeStore!.highlightColor}` },
       error: { borderLeft: `2.5px solid ${this.props.themeStore!.theme.colors.error[500]}` }

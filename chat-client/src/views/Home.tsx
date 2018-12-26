@@ -1,6 +1,6 @@
 import { IUser } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
-import { Logo } from '@app/components';
+import { FlipLogo } from '@app/components';
 import { INotifyStore, ISocketClient, IUserStore } from '@app/stores';
 import { Fab, Grid, TextField, Typography, Zoom } from '@material-ui/core';
 import UserIcon from '@material-ui/icons/DirectionsRunOutlined';
@@ -37,36 +37,36 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     const { userStore } = this.props;
 
     return (
-      <Grid container spacing={16}>
+      <Grid container spacing={16} alignItems="center">
         <Grid item xs={12}>
-          <Grid container justify="center" spacing={8} direction="column">
-            <Grid item>
-              <Logo />
+          <Grid container justify="center" spacing={8} direction="column" alignItems="center">
+            <Grid item style={{ alignSelf: 'center' }}>
+              <FlipLogo />
             </Grid>
             <Grid item>
-              <Typography color="textSecondary">
+              <Typography color="textSecondary" gutterBottom>
                 Select username and fire up some chats <Emoji symbol="💪" />
               </Typography>
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="userName"
+                variant="outlined"
+                type="text"
+                label="Username"
+                value={this.state.userName}
+                onChange={this.handleUserNameChange()}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Zoom in={this.state.userName ? true : false} style={{ transitionDelay: '200ms' }}>
+                <Fab type="submit" variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
+                  <UserIcon style={{ marginRight: '5px' }} />
+                  {userStore!.registered ? 'Change username' : `Let's go!`}
+                </Fab>
+              </Zoom>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="userName"
-            variant="outlined"
-            type="text"
-            label="Username"
-            value={this.state.userName}
-            onChange={this.handleUserNameChange()}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Zoom in={this.state.userName ? true : false} style={{ transitionDelay: '200ms' }}>
-            <Fab type="submit" variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
-              <UserIcon style={{ marginRight: '5px' }} />
-              {userStore!.registered ? 'Change username' : `Let's go!`}
-            </Fab>
-          </Zoom>
         </Grid>
       </Grid>
     );
