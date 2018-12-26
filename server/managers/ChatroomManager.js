@@ -22,7 +22,7 @@ export default class ChatroomManager {
    * @memberof ChatroomManager
    */
   removeClient(client) {
-    this.chatrooms.forEach(c => c.removeUser(client));
+    this.chatrooms.forEach(c => c.removeUser(client.id));
   }
 
   /**
@@ -34,6 +34,19 @@ export default class ChatroomManager {
    */
   getChatroomByName(chatroomName) {
     return this.chatrooms.get(chatroomName);
+  }
+
+  /**
+   * Gets chatrooms by client id.
+   *
+   * @param {*} clientId
+   * @returns
+   * @memberof ChatroomManager
+   */
+  getChatroomsByClientId(clientId) {
+    return Array.from(this.chatrooms.values())
+      .filter(c => c.members.has(clientId))
+      .map(c => c.serialize());
   }
 
   /**

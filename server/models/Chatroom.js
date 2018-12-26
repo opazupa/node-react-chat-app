@@ -37,13 +37,13 @@ export default class Chatroom {
 
   /**
    * Gets chat history.
-   * TODO Olli shoudl we return a max eg. 100 chats in join
    *
    * @memberof Chatroom
    * @returns
    */
   getChatHistory() {
-    return this.chatHistory.slice();
+    // Return max 1000 chats
+    return this.chatHistory.slice(0, 1000);
   }
 
   /**
@@ -60,10 +60,10 @@ export default class Chatroom {
    * Removes user from the chatroom.
    *
    * @memberof Chatroom
-   * @param {*} client
+   * @param {*} clientId
    */
-  removeUser(client) {
-    this.members.delete(client.id);
+  removeUser(clientId) {
+    this.members.delete(clientId);
   }
 
   /**
@@ -73,6 +73,7 @@ export default class Chatroom {
    * @returns
    */
   serialize() {
+    console.table(this.members.keys());
     return {
       name: this.name,
       symbol: this.symbol,

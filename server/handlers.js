@@ -173,12 +173,14 @@ export default (client, clientManager, chatroomManager) => {
    * Handles client disconnect.
    *
    */
-  const handleDisconnect = () => {
-    // remove user profile
-    clientManager.removeClient(client);
+  async function handleDisconnect() {
+    // send leave messages
+    await chatroomManager.getChatroomsByClientId(client.id).forEach(c => handleEvent(c.name, () => ({ event: `left ${c.name}` })));
     // remove member from all chatrooms
     chatroomManager.removeClient(client);
-  };
+    // remove user profile
+    clientManager.removeClient(client);
+  }
 
   return {
     handleRegister,

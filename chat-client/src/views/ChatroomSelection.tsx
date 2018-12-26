@@ -1,14 +1,13 @@
 import { IChatroom } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
 import { ChatroomTile, Loading } from '@app/components';
-import { IChatStore, ISocketClient } from '@app/stores';
+import { ISocketClient } from '@app/stores';
 import { Grid, Typography } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 
 interface IChatroomSelectionProps {
   socket?: ISocketClient;
-  chatStore?: IChatStore;
 }
 interface IChatroomSelectionState {
   chatrooms: IChatroom[];
@@ -16,7 +15,6 @@ interface IChatroomSelectionState {
 }
 
 @inject('socket')
-@inject('chatStore')
 @observer
 class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatroomSelectionState> {
   constructor(props: IChatroomSelectionProps, context) {
