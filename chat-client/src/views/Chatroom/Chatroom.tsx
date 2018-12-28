@@ -1,6 +1,6 @@
 import { IChat, IChatroom } from '@app/common/models';
 import { Loading } from '@app/components';
-import { INotifyStore, ISocketClient, IUserStore } from '@app/stores';
+import { INotifyStore, ISocketClient, IThemeStore, IUserStore } from '@app/stores';
 import { Grid, Typography } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
@@ -14,6 +14,7 @@ interface IChatroomProps {
   socket?: ISocketClient;
   userStore?: IUserStore;
   notifyStore?: INotifyStore;
+  themeStore?: IThemeStore;
   match: match<{ name: string }>;
 }
 
@@ -27,6 +28,7 @@ interface IChatroomState {
 
 @inject('socket')
 @inject('userStore')
+@inject('themeStore')
 @inject('notifyStore')
 @observer
 class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
@@ -73,11 +75,13 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
   }
 
   public render() {
+    const { userStore, themeStore } = this.props;
+
     if (this.state.isLoading) {
       return (
         <Grid container style={{ alignSelf: 'center' }} alignItems="center">
-          <Grid container xs={12} justify="center">
-            <Loading text={`Loading ${this.state.roomName} chats`} />
+          <Grid container justify="center">
+            <Loading text={`Loading ${this.state.roomName} chats...`} />
           </Grid>
         </Grid>
       );
@@ -86,7 +90,7 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
     return (
       <Grid container justify="center">
         {this.state.failedToJoin ? (
-          <Grid item>
+          <Grid item style={{ alignSelf: 'center' }}>
             <Typography variant="h6" color="textPrimary">
               Failed to join room {this.state.roomName} :(
             </Typography>
@@ -94,7 +98,7 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
         ) : (
           <Grid container justify="center" direction="column">
             <ChatHeader chatroom={this.state.room} />
-            <Chatbox user={this.props.userStore!.user!} chats={this.state.chatHistory} />
+            <Chatbox user={userStore!.user!} theme={themeStore!.theme} chats={this.state.chatHistory} />
             <ChatWriter onMessageSend={(message: string) => this.onMessageSend(message)} />
           </Grid>
         )}

@@ -36,7 +36,7 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
     if (this.state.isLoading) {
       return (
         <Grid container style={{ alignSelf: 'center' }} alignItems="center">
-          <Grid container xs={12} justify="center">
+          <Grid container justify="center">
             <Loading text="Loading chatrooms..." />
           </Grid>
         </Grid>
@@ -45,7 +45,7 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
 
     return (
       <Grid container spacing={8} direction="column" alignItems="center">
-        <Grid item>
+        <Grid item xs={12}>
           <Typography variant="h4" color="textPrimary" gutterBottom>
             Join a chatroom to fire up some chats <Emoji symbol="💪" />
           </Typography>
