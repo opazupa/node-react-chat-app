@@ -9,16 +9,32 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 
+/**
+ * IHomeProps
+ *
+ * @interface IHomeProps
+ */
 interface IHomeProps {
   userStore?: IUserStore;
   notifyStore?: INotifyStore;
   socket?: ISocketClient;
   history?: History;
 }
+/**
+ * IHomeState
+ *
+ * @interface IHomeState
+ */
 interface IHomeState {
   userName: string;
 }
 
+/**
+ * Home view for user registration.
+ *
+ * @class Home
+ * @extends {React.Component<IHomeProps, IHomeState>}
+ */
 @(withRouter as any)
 @inject('userStore')
 @inject('notifyStore')
@@ -72,11 +88,23 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     );
   }
 
+  /**
+   * Changes username
+   *
+   * @private
+   * @memberof Home
+   */
   private handleUserNameChange = () => event => {
     this.setState({ userName: event.target.value });
     return;
   };
 
+  /**
+   * Registers user to server
+   *
+   * @private
+   * @memberof Home
+   */
   private registerUser = () => event => {
     this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
       if (err) {

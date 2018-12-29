@@ -10,6 +10,11 @@ import ChatBox from './ChatBox';
 import ChatHeader from './ChatHeader';
 import ChatWriter from './ChatWriter';
 
+/**
+ * IChatroomProps
+ *
+ * @interface IChatroomProps
+ */
 interface IChatroomProps {
   socket?: ISocketClient;
   userStore?: IUserStore;
@@ -18,6 +23,11 @@ interface IChatroomProps {
   match: match<{ name: string }>;
 }
 
+/**
+ * IChatroomState
+ *
+ * @interface IChatroomState
+ */
 interface IChatroomState {
   roomName: string;
   room?: IChatroom;
@@ -26,6 +36,12 @@ interface IChatroomState {
   chatHistory: IChat[];
 }
 
+/**
+ * Component for single chatroom view.
+ *
+ * @class Chatroom
+ * @extends {React.Component<IChatroomProps, IChatroomState>}
+ */
 @inject('socket')
 @inject('userStore')
 @inject('themeStore')
@@ -47,7 +63,7 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
   }
 
   public componentDidMount() {
-    // Register message handler here
+    // Register message handler when mounted
     this.props.socket!.client.registerHandler((chat: IChat) => {
       this.setState({ chatHistory: this.state.chatHistory.concat(chat) });
     });
@@ -104,12 +120,24 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
     );
   }
 
+  /**
+   * Fetches given room info from server.
+   *
+   * @private
+   * @memberof Chatroom
+   */
   private getChatroomInfo = () => {
     this.props.socket!.client.getChatroomByName(this.state.roomName, (err: any, rooms: IChatroom[]) => {
       this.setState({ room: rooms[0] || undefined, isLoading: false });
     });
   };
 
+  /**
+   * Sends message to server.
+   *
+   * @private
+   * @memberof Chatroom
+   */
   private onMessageSend = (message: string) => {
     // tslint:disable-next-line:no-empty
     this.props.socket!.client.message(this.state.roomName, message, (err: any, chats: IChat[]) => {});

@@ -19,6 +19,9 @@ const styles = {
   }
 };
 
+/**
+ * Animated favorite icon.
+ */
 const AnimatedFavoriteIcon = styled(props => <FavoriteIcon {...props} />)`
   -webkit-transition: all 0.5s linear 0.2s !important;
   transition: all 0.5s linear 0.2s !important;
@@ -33,6 +36,9 @@ const AnimatedFavoriteIcon = styled(props => <FavoriteIcon {...props} />)`
   }
 `;
 
+/**
+ * Footer component tested to be built with material "withStyles"
+ */
 const Footer = (props: any) => {
   const { classes } = props;
 

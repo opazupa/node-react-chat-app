@@ -10,13 +10,9 @@ import { Footer, Navbar, NotificationHandler } from './components';
 import { INotifyStore, ISocketClient, IThemeStore, IUserStore } from './stores';
 import { Chatroom, ChatroomSelection, Home, ThemePicker } from './views';
 
-interface IAppProps {
-  themeStore?: IThemeStore;
-  userStore?: IUserStore;
-  notifyStore?: INotifyStore;
-  socket?: ISocketClient;
-}
-
+/**
+ * Main container for router
+ */
 const Main = styled(props => <Paper elevation={0} square {...props} />)`
   padding: 10px 15px 0 15px;
   margin-top: 64px;
@@ -25,6 +21,24 @@ const Main = styled(props => <Paper elevation={0} square {...props} />)`
   align-items: flex-start;
 `;
 
+/**
+ * AppProps
+ *
+ * @interface IAppProps
+ */
+interface IAppProps {
+  themeStore?: IThemeStore;
+  userStore?: IUserStore;
+  notifyStore?: INotifyStore;
+  socket?: ISocketClient;
+}
+
+/**
+ * Main app component.
+ *
+ * @class App
+ * @extends {React.Component<IAppProps, {}>}
+ */
 @(withRouter as any)
 @inject('themeStore')
 @inject('notifyStore')
@@ -61,9 +75,14 @@ class App extends React.Component<IAppProps, {}> {
     );
   }
 
+  /**
+   * Handles client reconnecting when refreshing or so.
+   *
+   * @private
+   * @memberof App
+   */
   private handleClientReconnect = (): void => {
     if (this.props.userStore!.registered) {
-      // Re register here when refreshed if there is user data in state!
       this.props.socket!.client.register(this.props.userStore!.user!.userName, (err: any, user: IUser) => {
         if (err) {
           this.props.notifyStore!.showError(err);

@@ -4,11 +4,23 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
+/**
+ * IUserRouteProps
+ *
+ * @interface IUserRouteProps
+ * @extends {RouteProps}
+ */
 interface IUserRouteProps extends RouteProps {
   userStore?: IUserStore;
   notifyStore?: INotifyStore;
 }
 
+/**
+ * Auth guard for registered users.
+ *
+ * @class ProtectedUserRoute
+ * @extends {React.Component<IUserRouteProps, {}>}
+ */
 @inject('userStore')
 @inject('notifyStore')
 @observer

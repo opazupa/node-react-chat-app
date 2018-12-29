@@ -2,9 +2,18 @@ import * as React from 'react';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
+/**
+ * IStyledNavLinkProps
+ *
+ * @interface IStyledNavLinkProps
+ * @extends {NavLinkProps}
+ */
 interface IStyledNavLinkProps extends NavLinkProps {
   highlightColor: string;
 }
+/**
+ * Styled navlink component.
+ */
 const StyledNavLink = styled(({ highlightColor, ...props }: IStyledNavLinkProps) => <NavLink {...props} />)`
   text-decoration: none;
   display: flex;

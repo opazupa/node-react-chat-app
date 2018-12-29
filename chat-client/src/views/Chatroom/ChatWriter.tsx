@@ -3,15 +3,31 @@ import { Fab, Grid, Paper, TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import * as React from 'react';
 
+/**
+ * IChatWriterProps
+ *
+ * @interface IChatWriterState
+ */
 interface IChatWriterProps {
   chatroom?: IChatroom;
   onMessageSend: (message: string) => void;
 }
 
+/**
+ * IChatWriterState
+ *
+ * @interface IChatWriterState
+ */
 interface IChatWriterState {
   message: string;
 }
 
+/**
+ * Component for chat input.
+ *
+ * @class ChatWriter
+ * @extends {React.Component<IChatWriterProps, IChatWriterState>}
+ */
 class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
   constructor(props, context) {
     super(props, context);
@@ -48,10 +64,23 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
       </Grid>
     );
   }
+
+  /**
+   * Handles message input.
+   *
+   * @private
+   * @memberof ChatWriter
+   */
   private handleMessageChange = () => event => {
     this.setState({ message: event.target.value });
   };
 
+  /**
+   * Handles message send forwards.
+   *
+   * @private
+   * @memberof ChatWriter
+   */
   private onMessageSend = () => {
     if (this.state.message) {
       this.props.onMessageSend(this.state.message);

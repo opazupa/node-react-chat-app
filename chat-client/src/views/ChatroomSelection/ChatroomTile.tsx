@@ -5,10 +5,9 @@ import * as React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 
-interface IChatroomTileProps {
-  chatroom: IChatroom;
-}
-
+/**
+ * Card content for chatroom tile
+ */
 const TileContent = styled(props => <CardContent {...props} />)`
   display: flex;
   flex-direction: column;
@@ -16,6 +15,10 @@ const TileContent = styled(props => <CardContent {...props} />)`
   align-items: start;
   border-right: 1.5px dashed black;
 `;
+
+/**
+ * Card component for chatroom tile
+ */
 const TileCard = styled(props => <Card {...props} />)`
   display: flex;
   align-items: center;
@@ -36,10 +39,28 @@ const TileCard = styled(props => <Card {...props} />)`
   }
 `;
 
+/**
+ * Chatroom tile router link
+ */
 const TileLink = styled(({ children, ...props }: LinkProps) => <Link {...props}>{children}</Link>)`
   text-decoration: none;
 `;
 
+/**
+ * IChatroomTileProps
+ *
+ * @interface IChatroomTileProps
+ */
+interface IChatroomTileProps {
+  chatroom: IChatroom;
+}
+
+/**
+ * Single chatroom tile component.
+ *
+ * @class ChatroomTile
+ * @extends {React.Component<IChatroomTileProps, {}>}
+ */
 class ChatroomTile extends React.Component<IChatroomTileProps, {}> {
   public render() {
     const { chatroom } = this.props;

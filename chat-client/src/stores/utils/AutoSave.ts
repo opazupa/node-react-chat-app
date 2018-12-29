@@ -1,11 +1,15 @@
 import { autorun, set, toJS } from 'mobx';
 
+/**
+ * Autosaves store to session storage. Also loads saved storage if one exists.
+ * @param store
+ */
 export const autoSave = (store: any) => {
   let firstRun = true;
 
   // will run on change
   autorun(() => {
-    // on load check if there's an existing store on localStorage and extend the store
+    // on load check if there's an existing store on sessionstorage and extend the store
     if (firstRun) {
       const existingStore = sessionStorage.getItem(store.constructor.name);
 
@@ -14,7 +18,7 @@ export const autoSave = (store: any) => {
       }
     }
 
-    // from then on serialize and save to localStorage
+    // from then on serialize and save to sessionstorage
     sessionStorage.setItem(store.constructor.name, JSON.stringify(toJS(store)));
   });
 

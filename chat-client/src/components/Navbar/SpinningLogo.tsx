@@ -1,6 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+/**
+ * Logo with spinning animation
+ */
 const SpinningLogo = styled(props => (
   <span style={{ flexGrow: 1 }}>
     <img {...props} />

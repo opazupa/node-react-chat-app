@@ -2,10 +2,19 @@ import { IUser } from '@app/common/models';
 import { Emoji } from '@app/common/utils';
 import * as React from 'react';
 
+/**
+ * IDrawerContentProps
+ *
+ * @interface IInfoBlockProps
+ */
 interface IInfoBlockProps {
   user?: IUser;
 }
 
+/**
+ * Info block component.
+ * @param props
+ */
 const InfoBlock = (props: IInfoBlockProps) => {
   const { user } = props;
 

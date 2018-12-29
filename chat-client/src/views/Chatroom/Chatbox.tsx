@@ -6,6 +6,9 @@ import * as React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 
+/**
+ * Container for all chats and events
+ */
 const ChatBoxContainer = styled.div`
   height: calc(100vh - 230px);
   padding: 10px 5px;
@@ -15,13 +18,20 @@ const ChatBoxContainer = styled.div`
   overflow-x: hidden;
 `;
 
+/**
+ * IChatProps
+ *
+ * @interface IChatProps
+ */
 interface IChatProps {
   chat: IChat;
   className: string;
   userChatColor: string;
   isUserChat: boolean;
 }
-
+/**
+ * Chat element in container
+ */
 const Chat = styled(({ chat, userChatColor, isUserChat, ...props }: IChatProps) => {
   return (
     <Paper {...props}>
@@ -65,10 +75,17 @@ const Chat = styled(({ chat, userChatColor, isUserChat, ...props }: IChatProps) 
   }
 `;
 
+/**
+ * IEventProps
+ *
+ * @interface IEventProps
+ */
 interface IEventProps {
   event: IChat;
 }
-
+/**
+ * event element in container
+ */
 const Event = styled(({ event, ...props }: IEventProps) => {
   const eventMessage = `${event.userName} ${event.event}`;
 
@@ -84,14 +101,27 @@ const Event = styled(({ event, ...props }: IEventProps) => {
   margin-top: 5px;
 `;
 
+/**
+ * IChatBoxProps
+ *
+ * @interface IChatBoxProps
+ */
 interface IChatBoxProps {
   chats: IChat[];
   theme: ITheme;
   user: IUser;
 }
 
+/**
+ * Component for displaying chats and events.
+ *
+ * @class ChatBox
+ * @extends {React.Component<IChatBoxProps, {}>}
+ */
 class ChatBox extends React.Component<IChatBoxProps, {}> {
+  // Ref to container
   private chatBoxContainer;
+
   constructor(props, context) {
     super(props, context);
   }
@@ -129,10 +159,22 @@ class ChatBox extends React.Component<IChatBoxProps, {}> {
     );
   }
 
+  /**
+   * Checks whether chat belongs to user.
+   *
+   * @private
+   * @memberof ChatBox
+   */
   private isOwnChat = (chat: IChat) => {
     return chat.userName === this.props.user.userName;
   };
 
+  /**
+   * Scrolls chat container to bottom
+   *
+   * @private
+   * @memberof ChatBox
+   */
   private scrollChatsToBottom(): void {
     this.chatBoxContainer.scrollTo(0, this.chatBoxContainer.scrollHeight);
   }

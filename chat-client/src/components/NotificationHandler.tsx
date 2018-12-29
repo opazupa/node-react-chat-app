@@ -4,11 +4,22 @@ import CloseIcon from '@material-ui/icons/Close';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 
+/**
+ * INotifyProps
+ *
+ * @interface INotifyProps
+ */
 interface INotifyProps {
   notifyStore?: INotifyStore;
   themeStore?: IThemeStore;
 }
 
+/**
+ * Component for handling notification displaying.
+ *
+ * @class NotificationHandler
+ * @extends {React.Component<INotifyProps, {}>}
+ */
 @inject('notifyStore')
 @inject('themeStore')
 @observer
@@ -48,6 +59,12 @@ class NotificationHandler extends React.Component<INotifyProps, {}> {
     );
   }
 
+  /**
+   * Get's notify style by type.
+   *
+   * @private
+   * @memberof NotificationHandler
+   */
   private getNotifyStyle = (type: 'success' | 'error') => {
     return {
       success: { borderLeft: `2.5px solid ${this.props.themeStore!.highlightColor}` },

@@ -1,5 +1,10 @@
 import * as React from 'react';
 
+/**
+ * Component for handling not found page for routes.
+ *
+ * @param location
+ */
 const NoMatch = ({ location }) => (
   <div>
     <h3>

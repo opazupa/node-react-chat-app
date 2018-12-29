@@ -7,12 +7,24 @@ import { ColorResult, GithubPicker } from 'react-color';
 import { Emoji } from '../common/utils';
 import { IThemeStore } from '../stores';
 
+/**
+ * IThemePickerProps
+ *
+ * @interface IThemePickerProps
+ */
 interface IThemePickerProps {
   themeStore?: IThemeStore;
 }
 
+// Use material color in pickers
 const { common, ...THEME_COLORS } = colors;
 
+/**
+ * Component for theme customization view.
+ *
+ * @class ThemePicker
+ * @extends {React.Component<IThemePickerProps, {}>}
+ */
 @inject('themeStore')
 @observer
 class ThemePicker extends React.Component<IThemePickerProps, {}> {
@@ -21,6 +33,7 @@ class ThemePicker extends React.Component<IThemePickerProps, {}> {
 
   constructor(props, context) {
     super(props, context);
+    // Use material color in pickers
     this.themeColorMap = Object(THEME_COLORS);
     this.colorSelection = Object.keys(this.themeColorMap).map(key => this.themeColorMap[key][500]);
   }
@@ -87,18 +100,43 @@ class ThemePicker extends React.Component<IThemePickerProps, {}> {
     );
   }
 
+  /**
+   * Converts material color to HEX
+   *
+   * @private
+   * @memberof ThemePicker
+   */
   private convertColorToHex = (color: Color): string => color[500];
 
+  /**
+   * Converts HEX to material color
+   *
+   * @private
+   * @memberof ThemePicker
+   */
   private convertHexToColor = (hex: string): Color => {
     const colorKey = Object.keys(this.themeColorMap).filter(key => this.themeColorMap[key][500] === hex)[0];
     return this.themeColorMap[colorKey];
   };
 
+  /**
+   * Swicthes theme type
+   *
+   * @private
+   * @memberof ThemePicker
+   */
   private handleTypeSwitch = () => event => {
     const type = event.target.checked ? 'dark' : 'light';
     this.props.themeStore!.setType(type);
   };
 
+  /**
+   * Checks if the is dark type
+   *
+   * @private
+   * @returns {boolean}
+   * @memberof ThemePicker
+   */
   private isDarkTheme(): boolean {
     return this.props.themeStore!.theme.colors.type === 'dark';
   }

@@ -3,6 +3,9 @@ import { Typography } from '@material-ui/core';
 import * as React from 'react';
 import styled from 'styled-components';
 
+/**
+ * Filpping logo on hover.
+ */
 const FlipLogo = styled(props => (
   <div {...props}>
     <div className="flip-container">

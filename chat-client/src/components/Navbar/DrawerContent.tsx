@@ -8,10 +8,19 @@ import * as React from 'react';
 import InfoBlock from './InfoBlock';
 import StyledNavLink from './StyledNavLink';
 
+/**
+ * IDrawerContentProps
+ *
+ * @interface IDrawerContentProps
+ */
 interface IDrawerContentProps {
   userStore?: IUserStore;
   highlightColor: string;
 }
+
+/**
+ * Component for sidenav drawer
+ */
 const DrawerContent = (props: IDrawerContentProps) => (
   <List component="nav">
     <ListItem>

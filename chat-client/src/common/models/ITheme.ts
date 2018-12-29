@@ -1,5 +1,11 @@
 import { Color, createMuiTheme } from '@material-ui/core';
 
+/**
+ * ITheme
+ *
+ * @export
+ * @interface ITheme
+ */
 export interface ITheme {
   colors: {
     primary: Color;
@@ -10,6 +16,12 @@ export interface ITheme {
   typography: { [Key: string]: any };
 }
 
+/**
+ * Creayes Material UI theme.
+ *
+ * @param {ITheme} theme
+ * @returns
+ */
 export const createTheme = (theme: ITheme) => {
   return createMuiTheme({
     palette: { ...theme.colors },

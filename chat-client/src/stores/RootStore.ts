@@ -3,6 +3,12 @@ import { ISocketClient, SocketClient } from './SocketClient';
 import { IThemeStore, ThemeStore } from './ThemeStore';
 import { IUserStore, UserStore } from './UserStore';
 
+/**
+ * IRootStore
+ *
+ * @export
+ * @interface IRootStore
+ */
 export interface IRootStore {
   userStore: IUserStore;
   themeStore: IThemeStore;
@@ -10,6 +16,12 @@ export interface IRootStore {
   notifyStore: INotifyStore;
 }
 
+/**
+ * Root store to initialize sub-stores.
+ *
+ * @class RootStore
+ * @implements {IRootStore}
+ */
 class RootStore implements IRootStore {
   public userStore: IUserStore;
   public themeStore: IThemeStore;

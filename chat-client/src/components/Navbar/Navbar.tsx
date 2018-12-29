@@ -15,21 +15,40 @@ import InfoBlock from './InfoBlock';
 import SpinningLogo from './SpinningLogo';
 import StyledNavLink from './StyledNavLink';
 
+/**
+ * Navlink container
+ */
 const NavLinks = styled.div`
   height: 64px;
   display: flex;
   margin-left: 10px;
 `;
 
+/**
+ * INavBarProps
+ *
+ * @interface INavBarProps
+ */
 interface INavBarProps {
   userStore?: IUserStore;
   themeStore?: IThemeStore;
 }
 
+/**
+ * INavBarState
+ *
+ * @interface INavBarState
+ */
 interface INavBarState {
   showDrawer: boolean;
 }
 
+/**
+ * Navbar component.
+ *
+ * @class NavBar
+ * @extends {React.Component<INavBarProps, INavBarState>}
+ */
 @(withRouter as any)
 @inject('userStore')
 @inject('themeStore')
@@ -93,6 +112,12 @@ class NavBar extends React.Component<INavBarProps, INavBarState> {
     );
   }
 
+  /**
+   * Toggles sidenav drawer.
+   *
+   * @private
+   * @memberof NavBar
+   */
   private toggleDrawer = show => () => {
     this.setState({
       showDrawer: show

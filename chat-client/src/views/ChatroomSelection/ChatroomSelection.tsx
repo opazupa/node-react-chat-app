@@ -8,14 +8,30 @@ import * as React from 'react';
 
 import ChatroomTile from './ChatroomTile';
 
+/**
+ * IChatroomSelectionProps
+ *
+ * @interface IChatroomSelectionProps
+ */
 interface IChatroomSelectionProps {
   socket?: ISocketClient;
 }
+/**
+ * IChatroomSelectionState
+ *
+ * @interface IChatroomSelectionState
+ */
 interface IChatroomSelectionState {
   chatrooms: IChatroom[];
   isLoading: boolean;
 }
 
+/**
+ * Chatroom selection view
+ *
+ * @class ChatroomSelection
+ * @extends {React.Component<IChatroomSelectionProps, IChatroomSelectionState>}
+ */
 @inject('socket')
 @observer
 class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatroomSelectionState> {
@@ -61,14 +77,26 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
     );
   }
 
-  private sortedChatrooms = (): IChatroom[] => {
-    return this.state.chatrooms.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
-  };
-
+  /**
+   * Fetches chatrooms from the server.
+   *
+   * @private
+   * @memberof ChatroomSelection
+   */
   private getChatrooms = (): void => {
     this.props.socket!.client.getChatrooms((err: any, chatrooms: IChatroom[]) => {
       this.setState({ isLoading: false, chatrooms: chatrooms || [] });
     });
+  };
+
+  /**
+   * Sort chatroom by name.
+   *
+   * @private
+   * @memberof ChatroomSelection
+   */
+  private sortedChatrooms = (): IChatroom[] => {
+    return this.state.chatrooms.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
   };
 }
 

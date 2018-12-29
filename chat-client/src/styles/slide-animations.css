@@ -1,3 +1,7 @@
+/* 
+* Slide animations. Extra class for direction must be provided
+*/
+
 .slide-in-enter.slide-from-left {
   opacity: 0.01;
   transform: translateX(-100%);

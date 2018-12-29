@@ -5,9 +5,17 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+/**
+ * IChatHeaderProps
+ *
+ * @interface IChatHeaderProps
+ */
 interface IChatHeaderProps {
   chatroom?: IChatroom;
 }
+/**
+ * Component for chatroom header.
+ */
 const ChatHeader = styled(({ chatroom, ...props }: IChatHeaderProps) => (
   <Grid container direction="column" {...props}>
     <Paper square={true} elevation={0} style={{ paddingTop: '5px' }}>
