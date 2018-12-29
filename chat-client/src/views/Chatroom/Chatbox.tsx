@@ -1,13 +1,18 @@
+import '@app/styles/slide-animations.css';
+
 import { IChat, ITheme, IUser } from '@app/common/models';
 import { Chip, Grid, Paper, Typography } from '@material-ui/core';
 import * as React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 
 const ChatBoxContainer = styled.div`
-  min-height: calc(100vh - 230px);
+  height: calc(100vh - 230px);
   padding: 10px 5px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 interface IChatProps {
@@ -21,7 +26,7 @@ const Chat = styled(({ chat, userChatColor, isUserChat, ...props }: IChatProps) 
   return (
     <Paper {...props}>
       <Grid container direction="column">
-        <Typography variant="body2" color="primary" component="span">
+        <Typography variant="body2" color="secondary" component="span">
           {!isUserChat ? chat.userName : ''}
         </Typography>
         <Grid container wrap="wrap">
@@ -45,6 +50,7 @@ const Chat = styled(({ chat, userChatColor, isUserChat, ...props }: IChatProps) 
 })`
   display: flex;
   align-self: start;
+  flex-shrink: 0;
   max-width: calc(70vw);
   padding: 10px;
   margin-top: 7px;
@@ -73,39 +79,52 @@ const Event = styled(({ event, ...props }: IEventProps) => {
   );
 })`
   display: flex;
-  color: red;
+  flex-shrink: 0;
   align-self: center;
   margin-top: 5px;
 `;
 
-interface IChatboxProps {
+interface IChatBoxProps {
   chats: IChat[];
   theme: ITheme;
   user: IUser;
 }
 
-class Chatbox extends React.Component<IChatboxProps, {}> {
+class ChatBox extends React.Component<IChatBoxProps, {}> {
+  private chatBoxContainer;
   constructor(props, context) {
     super(props, context);
+  }
+
+  public componentDidMount() {
+    this.scrollChatsToBottom();
+  }
+
+  public componentDidUpdate() {
+    this.scrollChatsToBottom();
   }
 
   public render() {
     const { chats, theme } = this.props;
     return (
-      <ChatBoxContainer>
-        {chats.map((chat: IChat, i) => [
-          chat.event ? (
-            <Event key={i} event={chat} />
-          ) : (
-            <Chat
-              key={i}
-              className={this.isOwnChat(chat) ? 'user-chat' : ''}
-              userChatColor={theme.colors.secondary[500]}
-              chat={chat}
-              isUserChat={this.isOwnChat(chat)}
-            />
-          )
-        ])}
+      <ChatBoxContainer ref={el => (this.chatBoxContainer = el)}>
+        <TransitionGroup component={null}>
+          {chats.map((chat: IChat, i) => [
+            chat.event ? (
+              <Event key={i} event={chat} />
+            ) : (
+              <CSSTransition classNames="slide-in" timeout={500}>
+                <Chat
+                  key={i}
+                  className={this.isOwnChat(chat) ? 'user-chat slide-from-right' : 'slide-from-left'}
+                  userChatColor={theme.colors.secondary[500]}
+                  chat={chat}
+                  isUserChat={this.isOwnChat(chat)}
+                />
+              </CSSTransition>
+            )
+          ])}
+        </TransitionGroup>
       </ChatBoxContainer>
     );
   }
@@ -113,6 +132,9 @@ class Chatbox extends React.Component<IChatboxProps, {}> {
   private isOwnChat = (chat: IChat) => {
     return chat.userName === this.props.user.userName;
   };
-}
 
-export default Chatbox;
+  private scrollChatsToBottom(): void {
+    this.chatBoxContainer.scrollTo(0, this.chatBoxContainer.scrollHeight);
+  }
+}
+export default ChatBox;

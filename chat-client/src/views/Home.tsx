@@ -39,7 +39,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     return (
       <Grid container spacing={16} alignItems="center">
         <Grid item xs={12}>
-          <Grid container justify="center" spacing={8} direction="column" alignItems="center">
+          <Grid container justify="center" spacing={16} direction="column" alignItems="center">
             <Grid item style={{ alignSelf: 'center' }}>
               <FlipLogo />
             </Grid>

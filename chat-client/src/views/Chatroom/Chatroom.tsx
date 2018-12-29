@@ -6,7 +6,7 @@ import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { match } from 'react-router';
 
-import Chatbox from './Chatbox';
+import ChatBox from './ChatBox';
 import ChatHeader from './ChatHeader';
 import ChatWriter from './ChatWriter';
 
@@ -50,8 +50,6 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
     // Register message handler here
     this.props.socket!.client.registerHandler((chat: IChat) => {
       this.setState({ chatHistory: this.state.chatHistory.concat(chat) });
-      // scroll to bottom when receiving new chats
-      window.scrollTo(0, document.body.scrollHeight);
     });
 
     // Join chat room when mounted
@@ -98,7 +96,7 @@ class Chatroom extends React.Component<IChatroomProps, IChatroomState> {
         ) : (
           <Grid container justify="center" direction="column">
             <ChatHeader chatroom={this.state.room} />
-            <Chatbox user={userStore!.user!} theme={themeStore!.theme} chats={this.state.chatHistory} />
+            <ChatBox user={userStore!.user!} theme={themeStore!.theme} chats={this.state.chatHistory} />
             <ChatWriter onMessageSend={(message: string) => this.onMessageSend(message)} />
           </Grid>
         )}

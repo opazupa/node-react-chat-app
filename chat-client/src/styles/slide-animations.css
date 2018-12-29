@@ -1,0 +1,21 @@
+.slide-in-enter.slide-from-left {
+  opacity: 0.01;
+  transform: translateX(-100%);
+}
+
+.slide-in-enter.slide-in-enter-active.slide-from-left {
+  transform: translateX(0);
+  opacity: 1;
+  transition: 300ms ease-in;
+}
+
+.slide-in-enter.slide-from-right {
+  opacity: 0.01;
+  transform: translateX(100%);
+}
+
+.slide-in-enter.slide-in-enter-active.slide-from-right {
+  transform: translateX(0);
+  opacity: 1;
+  transition: 300ms ease-in;
+}
