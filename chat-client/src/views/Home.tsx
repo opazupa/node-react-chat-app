@@ -72,6 +72,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                 label="Username"
                 value={this.state.userName}
                 onChange={this.handleUserNameChange()}
+                onKeyUp={this.registerUser()}
               />
             </Grid>
             <Grid item xs={12}>
@@ -106,19 +107,23 @@ class Home extends React.Component<IHomeProps, IHomeState> {
    * @memberof Home
    */
   private registerUser = () => event => {
-    this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
-      if (err) {
-        this.props.notifyStore!.showError(err);
-      } else {
-        if (!this.props.userStore!.registered) {
-          this.props.userStore!.register(user!);
-          this.props.history!.push('/chatrooms');
-          return;
+    // Handles enter press on ipout text field
+    if (this.state.userName && ((event.key && event.key === 'Enter') || !event.key)) {
+      this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
+        if (err) {
+          this.props.notifyStore!.showError(err);
+        } else {
+          if (!this.props.userStore!.registered) {
+            this.props.userStore!.register(user!);
+            this.props.history!.push('/chatrooms');
+          } else {
+            this.props.notifyStore!.showMessage(`Username changed`);
+            this.props.userStore!.register(user!);
+          }
         }
-        this.props.notifyStore!.showMessage(`Username changed`);
-        this.props.userStore!.register(user!);
-      }
-    });
+      });
+    }
+    event.stopPropagation();
   };
 }
 

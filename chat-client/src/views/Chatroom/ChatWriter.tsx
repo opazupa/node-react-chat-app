@@ -46,6 +46,7 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
                 id="message-input"
                 value={this.state.message}
                 onChange={this.handleMessageChange()}
+                onKeyUp={this.onEnterKey()}
                 placeholder="Start firing chats..."
                 margin="dense"
                 fullWidth
@@ -55,7 +56,7 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
               />
             </Grid>
             <Grid item>
-              <Fab color="primary" onClick={() => this.onMessageSend()}>
+              <Fab color="primary" onClick={() => this.sendMessage()}>
                 <SendIcon />
               </Fab>
             </Grid>
@@ -81,11 +82,25 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
    * @private
    * @memberof ChatWriter
    */
-  private onMessageSend = () => {
-    if (this.state.message) {
+  private sendMessage = () => {
+    const message = this.state.message.trim();
+    if (message) {
       this.props.onMessageSend(this.state.message);
       this.setState({ message: '' });
     }
+  };
+
+  /**
+   * Sends message on enter key up event.
+   *
+   * @private
+   * @memberof ChatWriter
+   */
+  private onEnterKey = () => event => {
+    if (event.key === 'Enter') {
+      this.sendMessage();
+    }
+    event.stopPropagation();
   };
 }
 
