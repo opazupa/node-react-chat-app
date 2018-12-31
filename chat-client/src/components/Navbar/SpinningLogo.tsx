@@ -1,4 +1,6 @@
+import { ButtonBase } from '@material-ui/core';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 /**
@@ -6,7 +8,11 @@ import styled from 'styled-components';
  */
 const SpinningLogo = styled(props => (
   <span style={{ flexGrow: 1 }}>
-    <img {...props} />
+    <ButtonBase>
+      <Link to="/">
+        <img {...props} />
+      </Link>
+    </ButtonBase>
   </span>
 ))`
   animation: logo-spin infinite 20s linear;

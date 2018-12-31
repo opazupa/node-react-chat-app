@@ -4,8 +4,9 @@
   "description": "Node + React websocket based live chat app",
   "scripts": {
     "client": "cd chat-client && npm start",
-    "server": "cd server && nodemon --exec babel-node server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+    "server": "cd server && babel-node server.js",
+    "nodemon-server": "cd server && nodemon --exec babel-node server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run nodemon-server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
