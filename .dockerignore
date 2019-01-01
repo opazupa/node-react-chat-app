@@ -1,0 +1,9 @@
+node_modules
+.git
+
+# Client
+chat-client
+# Docker files
+docker
+docker-compose.*
+ 

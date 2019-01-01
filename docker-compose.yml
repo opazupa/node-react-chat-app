@@ -1,1 +1,26 @@
-# Common base things here
+version: '3'
+
+services:
+  # Mongo DB here TODO
+
+  # Server
+  chat-server:
+    image: opasaarinen/chat-server
+    container_name: ChatServer
+
+    networks:
+      chat-app:
+
+  # Chat client.
+  chat-client:
+    image: opasaarinen/chat-client
+    container_name: ChatClient
+
+    networks:
+      chat-app:
+
+    depends_on:
+      - chat-server
+
+networks:
+  chat-app:

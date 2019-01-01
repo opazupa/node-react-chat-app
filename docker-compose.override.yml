@@ -1,1 +1,36 @@
 # Dev configurations on top of base docker.compose.yml
+version: '3'
+
+services:
+  # Mongo DB here TODO
+
+  # Server
+  chat-server:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./docker/HotReload.Dockerfile
+
+    environment:
+      PORT: 80
+
+    volumes:
+      - './server:/app/server'
+      - '/usr/src/app/node_modules'
+
+  # Chat client.
+  chat-client:
+    build:
+      context: ./chat-client
+      dockerfile: ./docker/HotReload.Dockerfile
+
+    volumes:
+      - './chat-client/src:/app/src'
+      - './chat-client/public:/app/public'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '35729:35729'
+      - '3000:3000'
+
+    links:
+      - chat-server

@@ -141,7 +141,9 @@ class ChatBox extends React.Component<IChatBoxProps, {}> {
         <TransitionGroup component={null}>
           {chats.map((chat: IChat, i) => [
             chat.event ? (
-              <Event key={i} event={chat} />
+              <CSSTransition classNames={''} timeout={0}>
+                <Event key={i} event={chat} />
+              </CSSTransition>
             ) : (
               <CSSTransition classNames="slide-in" timeout={500}>
                 <Chat

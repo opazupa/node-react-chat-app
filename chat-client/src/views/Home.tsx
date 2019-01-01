@@ -53,7 +53,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
     const { userStore } = this.props;
 
     return (
-      <Grid container spacing={16} alignItems="center">
+      <Grid container spacing={16} alignItems="center" style={{ alignSelf: 'center' }}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={16} direction="column" alignItems="center">
             <Grid item style={{ alignSelf: 'center' }}>
