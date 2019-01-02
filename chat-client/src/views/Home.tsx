@@ -76,7 +76,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
               />
             </Grid>
             <Grid item xs={12}>
-              <Zoom in={this.state.userName ? true : false} style={{ transitionDelay: '200ms' }}>
+              <Zoom in={this.showActionButton()} style={{ transitionDelay: '200ms' }}>
                 <Fab type="submit" variant="extended" size="large" color="secondary" aria-label="Submit" onClick={this.registerUser()}>
                   <UserIcon style={{ marginRight: '5px' }} />
                   {userStore!.registered ? 'Change username' : `Let's go!`}
@@ -124,6 +124,21 @@ class Home extends React.Component<IHomeProps, IHomeState> {
       });
     }
     event.stopPropagation();
+  };
+
+  /**
+   * Controls wheteher fab should be shown.
+   *
+   * @private
+   * @memberof Home
+   */
+  private showActionButton = (): boolean => {
+    if (this.state.userName && !this.props.userStore!.registered) {
+      return true;
+    } else if (this.props.userStore!.registered) {
+      return this.props.userStore!.user && this.props.userStore!.user!.userName !== this.state.userName ? true : false;
+    }
+    return false;
   };
 }
 
