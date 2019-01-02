@@ -46,7 +46,7 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
                 id="message-input"
                 value={this.state.message}
                 onChange={this.handleMessageChange()}
-                onKeyUp={this.onEnterKey()}
+                onKeyDown={this.onEnterKey()}
                 placeholder="Start firing chats..."
                 margin="dense"
                 fullWidth
@@ -98,9 +98,9 @@ class ChatWriter extends React.Component<IChatWriterProps, IChatWriterState> {
    */
   private onEnterKey = () => event => {
     if (event.key === 'Enter') {
+      event.preventDefault();
       this.sendMessage();
     }
-    event.stopPropagation();
   };
 }
 

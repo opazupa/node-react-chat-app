@@ -72,7 +72,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
                 label="Username"
                 value={this.state.userName}
                 onChange={this.handleUserNameChange()}
-                onKeyUp={this.registerUser()}
+                onKeyDown={this.registerUser()}
               />
             </Grid>
             <Grid item xs={12}>
@@ -97,7 +97,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
    */
   private handleUserNameChange = () => event => {
     this.setState({ userName: event.target.value });
-    return;
   };
 
   /**
@@ -109,7 +108,8 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   private registerUser = () => event => {
     // Handles enter press on ipout text field
     if (this.state.userName && ((event.key && event.key === 'Enter') || !event.key)) {
-      this.props.socket!.client.register(this.state.userName, (err: any, user: IUser) => {
+      event.preventDefault();
+      this.props.socket!.client.register(this.state.userName.trim(), (err: any, user: IUser) => {
         if (err) {
           this.props.notifyStore!.showError(err);
         } else {
@@ -123,7 +123,6 @@ class Home extends React.Component<IHomeProps, IHomeState> {
         }
       });
     }
-    event.stopPropagation();
   };
 
   /**

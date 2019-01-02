@@ -28,7 +28,8 @@ export class Socket implements ISocket {
   private socket: SocketIOClient.Socket;
 
   constructor() {
-    this.socket = socketIO.connect(process.env.REACT_APP_USE_WS ? { transports: ['websocket'] } : undefined);
+    // Control whether to use ws for polling also
+    this.socket = process.env.REACT_APP_USE_WS ? socketIO.connect() : socketIO.connect({ transports: ['websocket'] });
 
     this.socket.on('error', (err: any) => {
       console.log('received socket error:' + err);
