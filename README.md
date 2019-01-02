@@ -4,12 +4,15 @@ Node + React websocket based live chat app
 
 ## Includes
 
-- React frontend with Material UI design
-- MobX for state management
-- Websockets for livechat
-- Node backend server
-- Mongo DB for chat history
-- Docker support
+- React frontend with Material UI design :heavy_check_mark:
+- MobX for state management :heavy_check_mark:
+- Websockets for livechat :heavy_check_mark:
+- Node backend server :heavy_check_mark:
+- Docker support :heavy_check_mark:
+
+**Not there yet:**
+
+- Mongo DB for chat history :x:
 
 ## Code Structure
 
@@ -18,4 +21,14 @@ Node + React websocket based live chat app
 
 ## Run with docker :cake:
 
-    Here will come instruction to whip it with docker!
+**Run locally with hot reloading**
+
+`docker-compose up/down`
+
+**Run nginx-served**
+
+`docker-compose -f docker-compose.yml -f docker-compose.prod.yml up/down`
+
+**Or as a stack :)**
+
+`docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml chat-app`
