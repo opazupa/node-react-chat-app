@@ -8,7 +8,6 @@ services:
   chat-server:
     restart: always
     build:
-      context: ./
       dockerfile: ./docker/HotReload.Dockerfile
 
     environment:
@@ -20,8 +19,8 @@ services:
 
   # Chat client.
   chat-client:
+    restart: always
     build:
-      context: ./chat-client
       dockerfile: ./docker/HotReload.Dockerfile
 
     volumes:

@@ -1,1 +1,37 @@
 # Production configurations on top of base docker.compose.yml
+version: '3'
+
+services:
+  # Mongo DB here TODO
+
+  # Server
+  chat-server:
+    restart: always
+    build:
+      dockerfile: ./docker/Dockerfile
+    environment:
+      PORT: 80
+
+    deploy:
+      mode: global
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  # Chat client.
+  chat-client:
+    restart: always
+    build:
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - '80:80'
+
+    deploy:
+      replicas: 5
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure

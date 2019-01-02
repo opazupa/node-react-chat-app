@@ -31,7 +31,7 @@ const DEFAULT_THEME = {
     primary: grey,
     secondary: amber,
     error: red,
-    type: 'light'
+    type: 'dark'
   },
   typography: {
     fontFamily: ['"Raleway"', '"Segoe UI"'].join(','),
