@@ -28,7 +28,7 @@ export class Socket implements ISocket {
   private socket: SocketIOClient.Socket;
 
   constructor() {
-    this.socket = socketIO.connect();
+    this.socket = socketIO.connect({ transports: ['websocket'] });
 
     this.socket.on('error', (err: any) => {
       console.log('received socket error:' + err);
