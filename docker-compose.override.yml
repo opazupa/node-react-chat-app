@@ -8,7 +8,7 @@ services:
   chat-server:
     restart: always
     build:
-      dockerfile: ./docker/HotReload.Dockerfile
+      dockerfile: ./HotReload.Dockerfile
 
     environment:
       PORT: 80
@@ -21,7 +21,7 @@ services:
   chat-client:
     restart: always
     build:
-      dockerfile: ./docker/HotReload.Dockerfile
+      dockerfile: ./HotReload.Dockerfile
 
     volumes:
       - './chat-client/src:/app/src'
