@@ -127,7 +127,7 @@ class Home extends React.Component<IHomeProps, IHomeState> {
   };
 
   /**
-   * Controls wheteher fab should be shown.
+   * Controls whether fab should be shown.
    *
    * @private
    * @memberof Home
