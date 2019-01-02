@@ -14,7 +14,6 @@ services:
       PORT: 80
 
     deploy:
-      mode: global
       update_config:
         parallelism: 2
         delay: 10s

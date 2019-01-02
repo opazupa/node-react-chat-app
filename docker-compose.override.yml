@@ -22,7 +22,8 @@ services:
     restart: always
     build:
       dockerfile: ./HotReload.Dockerfile
-
+    environment:
+      REACT_APP_USE_WS: 'false'
     volumes:
       - './chat-client/src:/app/src'
       - './chat-client/public:/app/public'
