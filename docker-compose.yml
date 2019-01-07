@@ -5,8 +5,6 @@ services:
 
   # Server
   chat-server:
-    build:
-      context: ./
     image: opasaarinen/chat-server
     container_name: ChatServer
 
@@ -15,8 +13,6 @@ services:
 
   # Chat client.
   chat-client:
-    build:
-      context: ./chat-client
     image: opasaarinen/chat-client
     container_name: ChatClient
 

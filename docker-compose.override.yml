@@ -8,6 +8,7 @@ services:
   chat-server:
     restart: always
     build:
+      context: ./
       dockerfile: ./HotReload.Dockerfile
 
     environment:
@@ -21,6 +22,7 @@ services:
   chat-client:
     restart: always
     build:
+      context: ./chat-client
       dockerfile: ./HotReload.Dockerfile
     environment:
       REACT_APP_USE_WS: 'false'
