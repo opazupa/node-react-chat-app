@@ -36,3 +36,18 @@ services:
         delay: 10s
       restart_policy:
         condition: on-failure
+
+  # Mongodb
+  mongo:
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: chat
+      MONGO_INITDB_ROOT_PASSWORD: app
+      MONGO_INITDB_DATABASE: chat-app
+    volumes:
+      - mongostore:/data/db
+    deploy:
+      restart_policy:
+        condition: on-failure
+volumes:
+  mongostore:

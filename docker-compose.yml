@@ -11,6 +11,9 @@ services:
     networks:
       chat-app:
 
+    depends_on:
+      - mongo
+
   # Chat client.
   chat-client:
     image: opasaarinen/chat-client
@@ -24,6 +27,13 @@ services:
 
     depends_on:
       - chat-server
+
+  mongo:
+    container_name: mongo
+    image: mongo:3.4
+
+    networks:
+      chat-app:
 
 networks:
   chat-app:
