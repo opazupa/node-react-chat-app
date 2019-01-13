@@ -6,12 +6,14 @@ import socketIO from 'socket.io';
 import makeHandlers from './handlers';
 import ChatroomManager from './managers/ChatroomManager';
 import ClientManager from './managers/ClientManager';
+import { MongooseDb } from './mongo';
 
 // Set up express and socketIO
 const app = express();
 app.use(cors());
 const server = Server(app);
 const io = socketIO(server);
+const mongooseDb = MongooseDb();
 
 const clientManager = new ClientManager();
 const chatroomManager = new ChatroomManager();

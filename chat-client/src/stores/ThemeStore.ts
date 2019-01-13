@@ -1,6 +1,6 @@
 import { ITheme } from '@app/common/models/ITheme';
 import { Color } from '@material-ui/core';
-import { amber, grey, red } from '@material-ui/core/colors';
+import { red, teal } from '@material-ui/core/colors';
 import { action, observable } from 'mobx';
 
 import { autoSave } from './utils/AutoSave';
@@ -28,8 +28,8 @@ export interface IThemeStore {
  */
 const DEFAULT_THEME = {
   colors: {
-    primary: grey,
-    secondary: amber,
+    primary: teal,
+    secondary: teal,
     error: red,
     type: 'dark'
   },

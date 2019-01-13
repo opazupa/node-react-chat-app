@@ -104,12 +104,12 @@ export default (client, clientManager, chatroomManager) => {
     const createEntry = () => ({ event: `joined ${chatroomName}` });
 
     await handleEvent(chatroomName, createEntry)
-      .then(chatroom => {
+      .then(async chatroom => {
         // add member to chatroom
         chatroom.addUser(client);
 
         // send chat history to client
-        callback(null, chatroom.getChatHistory());
+        callback(null, await chatroom.getChatHistory());
       })
       .catch(callback);
   }

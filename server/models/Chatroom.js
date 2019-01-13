@@ -1,3 +1,5 @@
+import { Chat } from '../mongo';
+
 /**
  *
  * Chatroom class to handle single chatroom stuff.
@@ -9,10 +11,7 @@ export default class Chatroom {
   constructor(room) {
     this.name = room.name;
     this.symbol = room.symbol;
-
     this.members = new Map();
-    // TODO persist history to mongodb
-    this.chatHistory = [];
   }
 
   /**
@@ -32,7 +31,7 @@ export default class Chatroom {
    * @memberof Chatroom
    */
   addEntry(entry) {
-    this.chatHistory = this.chatHistory.concat(entry);
+    Chat.create({ ...entry });
   }
 
   /**
@@ -41,9 +40,11 @@ export default class Chatroom {
    * @memberof Chatroom
    * @returns
    */
-  getChatHistory() {
+  async getChatHistory() {
     // Return max 1000 chats
-    return this.chatHistory.filter(c => c.message).slice(0, 1000);
+    return Chat.find({ event: null })
+      .limit(10)
+      .exec();
   }
 
   /**
