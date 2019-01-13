@@ -8,11 +8,8 @@ Node + React websocket based live chat app
 - MobX for state management :heavy_check_mark:
 - Websockets for livechat :heavy_check_mark:
 - Node backend server :heavy_check_mark:
+- Mongo DB for chat history :heavy_check_mark:
 - Docker support :heavy_check_mark:
-
-**Not there yet:**
-
-- Mongo DB for chat history :x:
 
 ## Code Structure
 
