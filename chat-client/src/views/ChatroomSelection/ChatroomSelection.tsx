@@ -61,14 +61,14 @@ class ChatroomSelection extends React.Component<IChatroomSelectionProps, IChatro
 
     return (
       <Grid container spacing={8} direction="column" alignItems="center">
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
           <Typography variant="h4" color="textPrimary" gutterBottom>
             Join a chatroom to fire up some chats <Emoji symbol="💪" />
           </Typography>
         </Grid>
         <Grid container spacing={16} justify="center">
           {this.sortedChatrooms().map((room, i) => (
-            <Grid item sm="auto" xs={12} key={i}>
+            <Grid item sm="auto" xs={12} key={i} justify="center" style={{ display: 'flex', justifyContent: 'center' }}>
               <ChatroomTile chatroom={room} />
             </Grid>
           ))}
