@@ -31,7 +31,7 @@ export default class Chatroom {
    * @memberof Chatroom
    */
   addEntry(entry) {
-    Chat.create({ ...entry });
+    Chat.create({ ...entry, chatroom: this.name });
   }
 
   /**
@@ -42,8 +42,8 @@ export default class Chatroom {
    */
   async getChatHistory() {
     // Return max 1000 chats
-    return Chat.find({ event: null })
-      .limit(10)
+    return Chat.find({ event: null, chatroom: this.name })
+      .limit(1000)
       .exec();
   }
 

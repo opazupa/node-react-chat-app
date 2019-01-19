@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 // Mongoose models
 export const Chat = mongoose.model(
   'Chat',
-  new mongoose.Schema({ clientId: String, userName: String, timestamp: Date, event: String, message: String })
+  new mongoose.Schema({ clientId: String, userName: String, timestamp: Date, event: String, message: String, chatroom: String })
 );
 
 export const Chatroom = mongoose.model('Chatroom', new mongoose.Schema({ name: String, symbol: String }));
