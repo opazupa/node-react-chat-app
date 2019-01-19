@@ -1,5 +1,5 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile Angular
-FROM node:9.6.1 as build-stage
+FROM node:10.15.0-alpine as build-stage
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install
